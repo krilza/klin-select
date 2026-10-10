@@ -1,14 +1,23 @@
+// ============================================
+// ДАННЫЕ
+// ============================================
 let products = [];
 let cart = [];
 let selectedSize = null;
 let currentProductId = null;
 
+// ============================================
+// ХЕЛПЕР: экранирование HTML
+// ============================================
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = String(text ?? '');
     return div.innerHTML;
 }
 
+// ============================================
+// TOAST-УВЕДОМЛЕНИЯ
+// ============================================
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
     if (!container) return;
@@ -27,6 +36,9 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
+// ============================================
+// ЗАГРУЗКА / СОХРАНЕНИЕ
+// ============================================
 function loadData() {
     const savedProducts = localStorage.getItem('swaglink_products');
     const savedCart = localStorage.getItem('swaglink_cart');
@@ -36,32 +48,32 @@ function loadData() {
     }
 
     if (!products.length) {
-products = [
-    {
-        id: 1,
-        name: "Худи undercover x grace 2009",
-        description: "Эксклюзивное худи. Оверсайз крой, качественный хлопок.",
-        price: 4990,
-        image: "images/hoodie-1.jpg",        // ← твоё фото
-        sizes: ["L", "M", "XL"]
-    },
-    {
-        id: 2,
-        name: "Лонгслив Gr Project x Nine Inch Nails",
-        description: "Коллаборация с легендарной группой.",
-        price: 3990,
-        image: "images/longsleeve-nin.jpg",  // ← твоё фото
-        sizes: ["L", "M", "XL"]
-    },
-    {
-        id: 3,
-        name: "Худи undercover 1994",
-        description: "Классическая модель, проверенная временем.",
-        price: 5990,
-        image: "images/hoodie-1994.png",     // ← твоё фото
-        sizes: ["L", "M", "XL"]
-    }
-];
+        products = [
+            {
+                id: 1,
+                name: "Худи undercover x grace 2009",
+                description: "Эксклюзивное худи. Оверсайз крой, качественный хлопок.",
+                price: 4990,
+                image: "images/hoodie-1.jpg",
+                sizes: ["L", "M", "XL"]
+            },
+            {
+                id: 2,
+                name: "Лонгслив Gr Project x Nine Inch Nails",
+                description: "Коллаборация с легендарной группой.",
+                price: 3990,
+                image: "images/longsleeve-nin.jpg",
+                sizes: ["L", "M", "XL"]
+            },
+            {
+                id: 3,
+                name: "Худи undercover 1994",
+                description: "Классическая модель, проверенная временем.",
+                price: 5990,
+                image: "images/hoodie-1994.png",
+                sizes: ["L", "M", "XL"]
+            }
+        ];
         saveProducts();
     }
 
@@ -80,6 +92,9 @@ function saveCart() {
     localStorage.setItem('swaglink_cart', JSON.stringify(cart));
 }
 
+// ============================================
+// КАТАЛОГ
+// ============================================
 function renderProducts() {
     const container = document.getElementById('product-container');
     if (!container) return;
@@ -93,9 +108,9 @@ function renderProducts() {
         <div class="product-card" onclick="openProduct(${product.id})">
             <div class="product-image-wrapper">
                 ${index === 0 ? '<div class="product-badge">Новинка</div>' : ''}
-                <img src="${escapeHtml(product.image)}" 
-                     alt="${escapeHtml(product.name)}" 
-                     class="product-image" 
+                <img src="${escapeHtml(product.image)}"
+                     alt="${escapeHtml(product.name)}"
+                     class="product-image"
                      loading="lazy"
                      onerror="this.src='https://picsum.photos/400/500'">
             </div>
@@ -111,6 +126,9 @@ function renderProducts() {
     `).join('');
 }
 
+// ============================================
+// КАРТОЧКА ТОВАРА
+// ============================================
 function openProduct(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
@@ -128,7 +146,7 @@ function openProduct(productId) {
     container.innerHTML = `
         <div class="product-detail-container">
             <div class="product-detail-image">
-                <img src="${escapeHtml(product.image)}" 
+                <img src="${escapeHtml(product.image)}"
                      alt="${escapeHtml(product.name)}"
                      onerror="this.src='https://picsum.photos/600/600'">
             </div>
@@ -137,12 +155,12 @@ function openProduct(productId) {
                 <h1 class="product-detail-name">${escapeHtml(product.name)}</h1>
                 <div class="product-detail-price">${Number(product.price).toLocaleString('ru-RU')} ₽</div>
                 <div class="product-detail-description">${escapeHtml(product.description)}</div>
-                
+
                 <div class="product-detail-sizes">
                     <h4>Выберите размер <span id="size-error" style="color: #ff6b6b; font-weight: 500; display: none;">— обязательно</span></h4>
                     <div class="size-options">${sizesHtml}</div>
                 </div>
-                
+
                 <button class="btn-primary" onclick="addToCartFromDetail()">
                     🛒 Добавить в корзину
                 </button>
@@ -193,6 +211,9 @@ function addToCartFromDetail() {
     updateCartCount();
 }
 
+// ============================================
+// КОРЗИНА
+// ============================================
 function renderCart() {
     const cartList = document.getElementById('cart-list');
     const cartEmpty = document.getElementById('cart-empty');
@@ -212,8 +233,8 @@ function renderCart() {
 
     cartList.innerHTML = cart.map((item, index) => `
         <div class="cart-item">
-            <img src="${escapeHtml(item.image)}" 
-                 alt="${escapeHtml(item.name)}" 
+            <img src="${escapeHtml(item.image)}"
+                 alt="${escapeHtml(item.name)}"
                  class="cart-item-img"
                  loading="lazy"
                  onerror="this.src='https://picsum.photos/100/100'">
@@ -260,9 +281,54 @@ function updateCartCount() {
     });
 }
 
-function checkout() {
+// ============================================
+// ОФОРМЛЕНИЕ ЗАКАЗА — МОДАЛЬНОЕ ОКНО
+// ============================================
+function openCheckoutModal() {
     if (cart.length === 0) {
         showToast('Корзина пуста!', 'error');
+        return;
+    }
+
+    const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+    const totalEl = document.getElementById('checkout-total');
+    if (totalEl) totalEl.textContent = total.toLocaleString('ru-RU');
+
+    const modal = document.getElementById('checkout-modal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+}
+
+function closeCheckoutModal() {
+    const modal = document.getElementById('checkout-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+}
+
+function submitCheckout() {
+    if (cart.length === 0) {
+        showToast('Корзина пуста!', 'error');
+        return;
+    }
+
+    const nameEl = document.getElementById('customer-name');
+    const phoneEl = document.getElementById('customer-phone');
+    const telegramEl = document.getElementById('customer-telegram');
+    const addressEl = document.getElementById('customer-address');
+    const commentEl = document.getElementById('customer-comment');
+
+    const name = nameEl ? nameEl.value.trim() : '';
+    const phone = phoneEl ? phoneEl.value.trim() : '';
+    const telegram = telegramEl ? telegramEl.value.trim() : '';
+    const address = addressEl ? addressEl.value.trim() : '';
+    const comment = commentEl ? commentEl.value.trim() : '';
+
+    if (!name || !phone || !telegram || !address) {
+        showToast('Заполните все обязательные поля', 'error');
         return;
     }
 
@@ -271,11 +337,29 @@ function checkout() {
         .map(item => `• ${item.name} (разм. ${item.selectedSize}) × ${item.qty} — ${item.price * item.qty} ₽`)
         .join('\n');
 
-    const message = `🛍 ЗАКАЗ В SWAGLINK\n\nТовары:\n${itemsText}\n\n📦 Итого: ${total} ₽\n\n👤 Клиент: Иван Олегович\n📞 Телефон: 89303420168\n💬 Telegram: @Lyka6474`;
+    const message =
+`🛍 НОВЫЙ ЗАКАЗ В SWAGLINK
+
+📦 Товары:
+${itemsText}
+
+💰 Итого: ${total.toLocaleString('ru-RU')} ₽
+
+👤 Покупатель:
+• Имя: ${name}
+• Телефон: ${phone}
+• Telegram: ${telegram}
+• Адрес: ${address}${comment ? `\n• Комментарий: ${comment}` : ''}`;
 
     window.open(`https://t.me/Lyka6474?text=${encodeURIComponent(message)}`, '_blank');
+
+    closeCheckoutModal();
+    showToast('Заказ отправлен! Менеджер свяжется с вами.', 'success');
 }
 
+// ============================================
+// НАВИГАЦИЯ
+// ============================================
 function goBackToCatalog() {
     switchTab('catalog');
 }
@@ -303,6 +387,9 @@ function switchTab(tabId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// ============================================
+// ЗАПУСК
+// ============================================
 document.addEventListener('DOMContentLoaded', function () {
     loadData();
     renderProducts();
@@ -314,7 +401,6 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             const tabId = this.dataset.tab;
             if (tabId) switchTab(tabId);
-            
         });
     });
 
@@ -327,4 +413,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const tabId = window.location.hash.replace('#', '') || 'home';
         switchTab(tabId);
     });
+
+    const modal = document.getElementById('checkout-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeCheckoutModal();
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeCheckoutModal();
+    });
+
+    const checkoutForm = document.getElementById('checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            submitCheckout();
+        });
+    }
 });

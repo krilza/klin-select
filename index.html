@@ -243,7 +243,7 @@
                                 <span class="cart-total-label">Итого к оплате</span>
                                 <h3><span id="cart-total-price">0</span> ₽</h3>
                             </div>
-                            <button class="btn-primary btn-checkout" onclick="checkout()">
+                            <button class="btn-primary btn-checkout" onclick="openCheckoutModal()">
                                 Оформить заказ
                                 <span class="btn-arrow">→</span>
                             </button>
@@ -263,6 +263,57 @@
             </div>
         </div>
     </footer>
+
+    <!-- МОДАЛЬНОЕ ОКНО ОФОРМЛЕНИЯ ЗАКАЗА -->
+    <div id="checkout-modal" class="modal-overlay">
+        <div class="modal-window">
+            <button type="button" class="modal-close" onclick="closeCheckoutModal()">✕</button>
+
+            <div class="modal-header">
+                <div class="section-tag">ОФОРМЛЕНИЕ</div>
+                <h2 class="modal-title">Данные для доставки</h2>
+                <p class="modal-subtitle">Заполните форму — мы свяжемся с вами в Telegram</p>
+            </div>
+
+            <form id="checkout-form" class="checkout-form">
+                <div class="form-group">
+                    <label for="customer-name">Имя и фамилия *</label>
+                    <input type="text" id="customer-name" name="name" required placeholder="Иван Иванов" autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-phone">Телефон *</label>
+                    <input type="tel" id="customer-phone" name="phone" required placeholder="+7 (900) 000-00-00" autocomplete="tel">
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-telegram">Telegram *</label>
+                    <input type="text" id="customer-telegram" name="telegram" required placeholder="@username" autocomplete="off">
+                    <small class="form-hint">Для связи по заказу</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-address">Адрес доставки *</label>
+                    <textarea id="customer-address" name="address" required placeholder="Город, улица, дом, квартира, индекс" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-comment">Комментарий (необязательно)</label>
+                    <textarea id="customer-comment" name="comment" placeholder="Например: позвоните перед доставкой" rows="2"></textarea>
+                </div>
+
+                <div class="checkout-summary">
+                    <span>К оплате:</span>
+                    <strong><span id="checkout-total">0</span> ₽</strong>
+                </div>
+
+                <button type="submit" class="btn-primary btn-submit">
+                    Отправить заказ в Telegram
+                    <span class="btn-arrow">→</span>
+                </button>
+            </form>
+        </div>
+    </div>
 
     <script src="js/app.js"></script>
 </body>
