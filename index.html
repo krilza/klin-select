@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Swaglink — эксклюзивная одежда напрямую с заводов Китая.">
+    <meta name="theme-color" content="#7c4dff">
+    <title>Swaglink — Магазин одежды</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="artifact-bottom"></div>
+    <div id="toast-container" class="toast-container"></div>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" data-tab="home" style="cursor: pointer;">
+                    <h1>✦ Swaglink</h1>
+                </div>
+                <nav class="nav">
+                    <a href="#home" class="nav-link active" data-tab="home">Главная</a>
+                    <a href="#catalog" class="nav-link" data-tab="catalog">Каталог</a>
+                    <a href="#contacts" class="nav-link" data-tab="contacts">Контакты</a>
+                    <a href="#cart" class="nav-link" data-tab="cart">
+                        🛒 Корзина <span class="cart-count" id="cart-count-header">0</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ГЛАВНАЯ -->
+        <section id="tab-home" class="tab-content active">
+            <div class="hero">
+                <div class="hero-bg-grid"></div>
+                <div class="hero-bg-glow"></div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <span class="badge-dot"></span>
+                            Новая коллекция 2026
+                        </div>
+                        <h2>
+                            Стиль, который <br>
+                            <span class="highlight">выбирают</span>
+                        </h2>
+                        <p>Эксклюзивная одежда для тех, кто ценит качество и индивидуальность. Прямиком с заводов — без посредников.</p>
+                        <div class="hero-actions">
+                            <a href="#catalog" class="btn-primary" data-tab="catalog">
+                                Смотреть каталог
+                                <span class="btn-arrow">→</span>
+                            </a>
+                            <a href="#contacts" class="btn-ghost" data-tab="contacts">Связаться</a>
+                        </div>
+
+                        <div class="hero-stats">
+                            <div class="hero-stat">
+                                <span class="hero-stat-num">50+</span>
+                                <span class="hero-stat-label">заводов</span>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div class="hero-stat">
+                                <span class="hero-stat-num">2-3</span>
+                                <span class="hero-stat-label">дня доставка</span>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div class="hero-stat">
+                                <span class="hero-stat-num">100%</span>
+                                <span class="hero-stat-label">оригинал</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-marquee">
+                    <div class="marquee-track">
+                        <span>✦ ОВЕРСАЙЗ</span><span>✦ ЛИМИТЕД</span><span>✦ ЭКСКЛЮЗИВ</span><span>✦ КАЧЕСТВО</span>
+                        <span>✦ ОВЕРСАЙЗ</span><span>✦ ЛИМИТЕД</span><span>✦ ЭКСКЛЮЗИВ</span><span>✦ КАЧЕСТВО</span>
+                        <span>✦ ОВЕРСАЙЗ</span><span>✦ ЛИМИТЕД</span><span>✦ ЭКСКЛЮЗИВ</span><span>✦ КАЧЕСТВО</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-brand">
+                <div class="container">
+                    <div class="about-brand-content">
+                        <div class="section-tag">О НАС</div>
+                        <div class="about-brand-icon">🏭</div>
+                        <h2>Мы работаем напрямую с заводами в Китае</h2>
+                        <p>Каждая вещь в нашем магазине — это результат личного контроля. Я лично выезжаю на производства, отбираю лучшие материалы и проверяю каждую партию перед отправкой.</p>
+                        <p>Никакого посреднического брака. Только проверенное качество по доступной цене.</p>
+                    </div>
+
+                    <div class="brand-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Проверенных заводов</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Контроль качества</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">7 дней</span>
+                            <span class="stat-label">Тестирование каждой модели</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Поддержка клиентов</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="container">
+                    <div class="section-tag" style="text-align: center; display: block; width: fit-content; margin: 0 auto 20px;">ПОЧЕМУ МЫ</div>
+                    <h2 class="section-heading">Преимущества Swaglink</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrap"><div class="feature-icon">🚀</div></div>
+                            <h3>Быстрая доставка</h3>
+                            <p>По всей России за 2-3 дня. Отслеживание на каждом этапе.</p>
+                            <div class="feature-num">01</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon-wrap"><div class="feature-icon">🔄</div></div>
+                            <h3>Легкий возврат</h3>
+                            <p>14 дней на возврат. Без вопросов и лишних формальностей.</p>
+                            <div class="feature-num">02</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon-wrap"><div class="feature-icon">⭐</div></div>
+                            <h3>Высокое качество</h3>
+                            <p>Только проверенные материалы и личный контроль партий.</p>
+                            <div class="feature-num">03</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- КАТАЛОГ -->
+        <section id="tab-catalog" class="tab-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="section-tag">КАТАЛОГ</div>
+                    <h2 class="page-title">Наш каталог</h2>
+                    <p class="page-subtitle">Отобрано вручную. Проверено лично.</p>
+                </div>
+                <div class="catalog-grid" id="product-container"></div>
+            </div>
+        </section>
+
+        <!-- КАРТОЧКА ТОВАРА -->
+        <section id="tab-product" class="tab-content">
+            <div class="container">
+                <button class="btn-back" onclick="goBackToCatalog()">← Назад в каталог</button>
+                <div id="product-detail"></div>
+            </div>
+        </section>
+
+        <!-- КОНТАКТЫ -->
+        <section id="tab-contacts" class="tab-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="section-tag">КОНТАКТЫ</div>
+                    <h2 class="page-title">Свяжитесь с нами</h2>
+                    <p class="page-subtitle">Отвечаем быстро. Всегда на связи.</p>
+                </div>
+
+                <div class="contacts-content">
+                    <a href="tel:+79303420168" class="contact-card">
+                        <div class="contact-icon-wrap">
+                            <div class="contact-icon">📱</div>
+                        </div>
+                        <div class="contact-info">
+                            <h3>Телефон</h3>
+                            <p>8 (930) 342-01-68</p>
+                        </div>
+                        <div class="contact-arrow">→</div>
+                    </a>
+
+                    <a href="https://t.me/Lyka6474" target="_blank" rel="noopener" class="contact-card">
+                        <div class="contact-icon-wrap">
+                            <div class="contact-icon">💬</div>
+                        </div>
+                        <div class="contact-info">
+                            <h3>Telegram</h3>
+                            <p>t.me/Lyka6474</p>
+                        </div>
+                        <div class="contact-arrow">→</div>
+                    </a>
+
+                    <div class="contact-card">
+                        <div class="contact-icon-wrap">
+                            <div class="contact-icon">👤</div>
+                        </div>
+                        <div class="contact-info">
+                            <h3>Менеджер</h3>
+                            <p>Иван Олегович</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contacts-note">
+                    <div class="contacts-note-icon">⚡</div>
+                    <div>
+                        <h4>Среднее время ответа — 15 минут</h4>
+                        <p>По вопросам заказа, размеров, доставки и возврата</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- КОРЗИНА -->
+        <section id="tab-cart" class="tab-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="section-tag">КОРЗИНА</div>
+                    <h2 class="page-title">Ваш заказ</h2>
+                    <p class="page-subtitle">Проверьте товары перед оформлением</p>
+                </div>
+
+                <div id="cart-container">
+                    <div id="cart-empty" class="cart-empty">
+                        <div class="cart-empty-icon">🛒</div>
+                        <h3>Корзина пуста</h3>
+                        <p>Самое время что-нибудь выбрать</p>
+                        <a href="#catalog" class="btn-primary" data-tab="catalog">Перейти в каталог</a>
+                    </div>
+                    <div id="cart-items" style="display: none;">
+                        <div id="cart-list"></div>
+                        <div class="cart-total">
+                            <div class="cart-total-info">
+                                <span class="cart-total-label">Итого к оплате</span>
+                                <h3><span id="cart-total-price">0</span> ₽</h3>
+                            </div>
+                            <button class="btn-primary btn-checkout" onclick="checkout()">
+                                Оформить заказ
+                                <span class="btn-arrow">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">✦ Swaglink</div>
+                <p>© 2026 Swaglink. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
