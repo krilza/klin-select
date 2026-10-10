@@ -27,6 +27,7 @@
                     <a href="#home" class="nav-link active" data-tab="home">Главная</a>
                     <a href="#catalog" class="nav-link" data-tab="catalog">Каталог</a>
                     <a href="#contacts" class="nav-link" data-tab="contacts">Контакты</a>
+                    <a href="#games" class="nav-link" data-tab="games">🎮 Игры</a>
                     <a href="#cart" class="nav-link" data-tab="cart">
                         🛒 Корзина <span class="cart-count" id="cart-count-header">0</span>
                     </a>
@@ -167,6 +168,112 @@
             </div>
         </section>
 
+        <!-- ИГРЫ -->
+        <section id="tab-games" class="tab-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="section-tag">ИГРАЙ И ПОЛУЧАЙ СКИДКИ</div>
+                    <h2 class="page-title">Мини-игры Swaglink</h2>
+                    <p class="page-subtitle">Зарабатывай промокоды — применяй их при заказе</p>
+                </div>
+
+                <div class="games-grid">
+
+                    <!-- КЛИКЕР -->
+                    <div class="game-card">
+                        <div class="game-card-header">
+                            <span class="game-icon">🖱️</span>
+                            <h3>Swag Кликер</h3>
+                            <p>Кликай и получай скидки</p>
+                        </div>
+
+                        <div class="clicker-score">
+                            <span id="clicker-score">0</span>
+                            <span class="clicker-score-label">очков</span>
+                        </div>
+
+                        <button class="clicker-btn" id="clicker-btn">
+                            <span class="clicker-btn-icon">✦</span>
+                            <span class="clicker-btn-text">КЛИК</span>
+                        </button>
+
+                        <div class="clicker-progress">
+                            <div class="clicker-progress-info">
+                                <span>До скидки 10%:</span>
+                                <span id="clicker-progress-text">0 / 100</span>
+                            </div>
+                            <div class="clicker-progress-bar">
+                                <div class="clicker-progress-fill" id="clicker-progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="clicker-rewards">
+                            <div class="reward-item" id="reward-100">
+                                <span class="reward-percent">10%</span>
+                                <span class="reward-code">SWAG10</span>
+                            </div>
+                            <div class="reward-item" id="reward-500">
+                                <span class="reward-percent">20%</span>
+                                <span class="reward-code">SWAG20</span>
+                            </div>
+                            <div class="reward-item" id="reward-1000">
+                                <span class="reward-percent">30%</span>
+                                <span class="reward-code">SWAG30</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-ghost game-reset" onclick="resetClicker()">Сбросить прогресс</button>
+                    </div>
+
+                    <!-- УГАДАЙ БРЕНД -->
+                    <div class="game-card">
+                        <div class="game-card-header">
+                            <span class="game-icon">🎯</span>
+                            <h3>Угадай бренд</h3>
+                            <p>10 вопросов — проверь себя</p>
+                        </div>
+
+                        <div id="quiz-start" class="quiz-start">
+                            <p class="quiz-start-text">Ответь правильно на 8+ вопросов и получи скидку <strong>15%</strong></p>
+                            <button class="btn-primary" onclick="startQuiz()">
+                                Начать игру
+                                <span class="btn-arrow">→</span>
+                            </button>
+                        </div>
+
+                        <div id="quiz-content" style="display: none;">
+                            <div class="quiz-progress">
+                                <span>Вопрос <span id="quiz-current">1</span> / <span id="quiz-total">10</span></span>
+                                <span>Правильно: <span id="quiz-score">0</span></span>
+                            </div>
+
+                            <div class="quiz-question" id="quiz-question">Загрузка...</div>
+
+                            <div class="quiz-options" id="quiz-options"></div>
+
+                            <div class="quiz-feedback" id="quiz-feedback"></div>
+                        </div>
+
+                        <div id="quiz-result" style="display: none;" class="quiz-result">
+                            <div class="quiz-result-icon" id="quiz-result-icon">🎉</div>
+                            <h4 id="quiz-result-title">Игра завершена!</h4>
+                            <p id="quiz-result-text"></p>
+                            <div id="quiz-result-code" class="quiz-result-code" style="display: none;">
+                                <span>Промокод:</span>
+                                <strong id="quiz-code">SWAG15</strong>
+                                <button class="btn-ghost" onclick="copyQuizCode()">📋 Копировать</button>
+                            </div>
+                            <button class="btn-primary" onclick="restartQuiz()">
+                                Играть снова
+                                <span class="btn-arrow">→</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
         <!-- КОНТАКТЫ -->
         <section id="tab-contacts" class="tab-content">
             <div class="container">
@@ -295,6 +402,11 @@
                 <div class="form-group">
                     <label for="customer-address">Адрес доставки *</label>
                     <textarea id="customer-address" name="address" required placeholder="Город, улица, дом, квартира, индекс" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-promo">Промокод из игры (если есть)</label>
+                    <input type="text" id="customer-promo" name="promo" placeholder="SWAG10" autocomplete="off">
                 </div>
 
                 <div class="form-group">

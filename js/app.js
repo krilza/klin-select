@@ -7,7 +7,7 @@ let selectedSize = null;
 let currentProductId = null;
 
 // ============================================
-// ХЕЛПЕР: экранирование HTML
+// ХЕЛПЕР
 // ============================================
 function escapeHtml(text) {
     const div = document.createElement('div');
@@ -16,7 +16,7 @@ function escapeHtml(text) {
 }
 
 // ============================================
-// TOAST-УВЕДОМЛЕНИЯ
+// TOAST
 // ============================================
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
@@ -282,7 +282,239 @@ function updateCartCount() {
 }
 
 // ============================================
-// ОФОРМЛЕНИЕ ЗАКАЗА — МОДАЛЬНОЕ ОКНО
+// ИГРА 1: КЛИКЕР
+// ============================================
+const CLICKER_KEY = 'swaglink_clicker_score';
+const CLICKER_REWARDS_KEY = 'swaglink_clicker_rewards';
+let clickerScore = 0;
+let clickerUnlocked = [];
+
+function loadClicker() {
+    clickerScore = parseInt(localStorage.getItem(CLICKER_KEY) || '0', 10);
+    try {
+        clickerUnlocked = JSON.parse(localStorage.getItem(CLICKER_REWARDS_KEY) || '[]');
+    } catch { clickerUnlocked = []; }
+}
+
+function saveClicker() {
+    localStorage.setItem(CLICKER_KEY, clickerScore.toString());
+    localStorage.setItem(CLICKER_REWARDS_KEY, JSON.stringify(clickerUnlocked));
+}
+
+function renderClicker() {
+    const scoreEl = document.getElementById('clicker-score');
+    const progressText = document.getElementById('clicker-progress-text');
+    const progressFill = document.getElementById('clicker-progress-fill');
+    if (!scoreEl) return;
+
+    scoreEl.textContent = clickerScore;
+
+    // Ближайшая цель
+    let nextTarget = 100;
+    let prevTarget = 0;
+    if (clickerScore >= 100) { nextTarget = 500; prevTarget = 100; }
+    if (clickerScore >= 500) { nextTarget = 1000; prevTarget = 500; }
+    if (clickerScore >= 1000) { nextTarget = 1000; prevTarget = 1000; }
+
+    if (progressText) progressText.textContent = `${Math.min(clickerScore, nextTarget)} / ${nextTarget}`;
+
+    const percent = nextTarget > prevTarget
+        ? Math.min(100, ((clickerScore - prevTarget) / (nextTarget - prevTarget)) * 100)
+        : 100;
+    if (progressFill) progressFill.style.width = percent + '%';
+
+    // Отметки призов
+    [100, 500, 1000].forEach(threshold => {
+        const el = document.getElementById('reward-' + threshold);
+        if (!el) return;
+        el.classList.remove('available', 'unlocked');
+        if (clickerUnlocked.includes(threshold)) {
+            el.classList.add('unlocked');
+        } else if (clickerScore >= threshold) {
+            el.classList.add('available');
+        }
+    });
+}
+
+function clickTheButton() {
+    clickerScore += 1;
+
+    // Небольшое увеличение за каждые 10 очков
+    const scoreEl = document.getElementById('clicker-score');
+    if (scoreEl) {
+        scoreEl.classList.add('pop');
+        setTimeout(() => scoreEl.classList.remove('pop'), 150);
+    }
+
+    // Проверка наград
+    [100, 500, 1000].forEach(threshold => {
+        if (clickerScore >= threshold && !clickerUnlocked.includes(threshold)) {
+            clickerUnlocked.push(threshold);
+            const reward = threshold === 100 ? '10%' : threshold === 500 ? '20%' : '30%';
+            showToast(`🎉 Достижение! Промокод на скидку ${reward}`, 'success');
+        }
+    });
+
+    saveClicker();
+    renderClicker();
+}
+
+function copyPromo(code) {
+    navigator.clipboard.writeText(code).then(() => {
+        showToast(`Промокод ${code} скопирован!`, 'success');
+    }).catch(() => {
+        // Fallback
+        const input = document.createElement('input');
+        input.value = code;
+        document.body.appendChild(input);
+        input.select();
+        try { document.execCommand('copy'); showToast(`Промокод ${code} скопирован!`, 'success'); } catch {}
+        document.body.removeChild(input);
+    });
+}
+
+function resetClicker() {
+    if (!confirm('Сбросить прогресс в кликере?')) return;
+    clickerScore = 0;
+    clickerUnlocked = [];
+    saveClicker();
+    renderClicker();
+    showToast('Прогресс кликера сброшен', 'info');
+}
+
+// ============================================
+// ИГРА 2: УГАДАЙ БРЕНД
+// ============================================
+const QUIZ_QUESTIONS = [
+    { q: "Худи под каким брендом носил Курт Кобейн?", a: "Fender", options: ["Nike", "Fender", "Adidas", "Puma"], correct: 1 },
+    { q: "Какой бренд основал Трэвис Скотт?", a: "Cactus Jack", options: ["Yeezy", "Cactus Jack", "Off-White", "Supreme"], correct: 1 },
+    { q: "Кто основал бренд Off-White?", a: "Вирджил Абло", options: ["Йоджи Ямамото", "Вирджил Абло", "Раф Симонс", "Канье Уэст"], correct: 1 },
+    { q: "Supreme — это бренд из какого города?", a: "Нью-Йорк", options: ["Лондон", "Лос-Анджелес", "Нью-Йорк", "Токио"], correct: 2 },
+    { q: "Какой бренд производит кроссовки Air Max?", a: "Nike", options: ["Adidas", "Puma", "Nike", "Reebok"], correct: 2 },
+    { q: "Balenciaga — это бренд из какой страны?", a: "Испания", options: ["Италия", "Франция", "Испания", "Германия"], correct: 2 },
+    { q: "Какой бренд носит слоган «Impossible is Nothing»?", a: "Adidas", options: ["Nike", "Adidas", "Puma", "Reebok"], correct: 1 },
+    { q: "Yeezy — это коллаборация Adidas с кем?", a: "Канье Уэст", options: ["Трэвис Скотт", "Канье Уэст", "Дрейк", "Фаррелл"], correct: 1 },
+    { q: "Какой бренд создал сумку Birkin?", a: "Hermès", options: ["Chanel", "Hermès", "Louis Vuitton", "Gucci"], correct: 1 },
+    { q: "Какой бренд носил название Blue Ribbon Sports?", a: "Nike", options: ["Adidas", "Puma", "Nike", "New Balance"], correct: 2 }
+];
+
+let quizQuestions = [];
+let quizCurrent = 0;
+let quizScore = 0;
+
+function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function startQuiz() {
+    quizQuestions = shuffleArray(QUIZ_QUESTIONS).slice(0, 10);
+    quizCurrent = 0;
+    quizScore = 0;
+
+    document.getElementById('quiz-start').style.display = 'none';
+    document.getElementById('quiz-result').style.display = 'none';
+    document.getElementById('quiz-content').style.display = 'block';
+    document.getElementById('quiz-total').textContent = quizQuestions.length;
+
+    renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+    const q = quizQuestions[quizCurrent];
+    if (!q) return finishQuiz();
+
+    document.getElementById('quiz-current').textContent = quizCurrent + 1;
+    document.getElementById('quiz-score').textContent = quizScore;
+    document.getElementById('quiz-question').textContent = q.q;
+
+    const feedback = document.getElementById('quiz-feedback');
+    feedback.textContent = '';
+    feedback.classList.remove('show', 'success', 'error');
+
+    const optionsEl = document.getElementById('quiz-options');
+    optionsEl.innerHTML = q.options.map((opt, i) => `
+        <button class="quiz-option" onclick="answerQuiz(${i})">${escapeHtml(opt)}</button>
+    `).join('');
+}
+
+function answerQuiz(index) {
+    const q = quizQuestions[quizCurrent];
+    if (!q) return;
+
+    const buttons = document.querySelectorAll('.quiz-option');
+    const feedback = document.getElementById('quiz-feedback');
+
+    buttons.forEach((btn, i) => {
+        btn.classList.add('disabled');
+        btn.disabled = true;
+        if (i === q.correct) btn.classList.add('correct');
+        if (i === index && i !== q.correct) btn.classList.add('wrong');
+    });
+
+    if (index === q.correct) {
+        quizScore += 1;
+        feedback.textContent = '✅ Правильно!';
+        feedback.classList.add('show', 'success');
+    } else {
+        feedback.textContent = `❌ Неверно. Правильный ответ: ${q.a}`;
+        feedback.classList.add('show', 'error');
+    }
+
+    document.getElementById('quiz-score').textContent = quizScore;
+
+    setTimeout(() => {
+        quizCurrent += 1;
+        if (quizCurrent < quizQuestions.length) {
+            renderQuizQuestion();
+        } else {
+            finishQuiz();
+        }
+    }, 1500);
+}
+
+function finishQuiz() {
+    document.getElementById('quiz-content').style.display = 'none';
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+
+    const iconEl = document.getElementById('quiz-result-icon');
+    const titleEl = document.getElementById('quiz-result-title');
+    const textEl = document.getElementById('quiz-result-text');
+    const codeBoxEl = document.getElementById('quiz-result-code');
+
+    if (quizScore >= 8) {
+        iconEl.textContent = '🏆';
+        titleEl.textContent = 'Отличный результат!';
+        textEl.textContent = `Ты ответил правильно на ${quizScore} из ${quizQuestions.length}. Держи промокод на скидку 15%!`;
+        codeBoxEl.style.display = 'flex';
+    } else if (quizScore >= 5) {
+        iconEl.textContent = '👏';
+        titleEl.textContent = 'Неплохо!';
+        textEl.textContent = `Правильных ответов: ${quizScore} из ${quizQuestions.length}. До скидки нужно 8+. Попробуй ещё раз!`;
+        codeBoxEl.style.display = 'none';
+    } else {
+        iconEl.textContent = '😅';
+        titleEl.textContent = 'Есть куда расти!';
+        textEl.textContent = `Правильных ответов: ${quizScore} из ${quizQuestions.length}. Попробуй ещё раз — будет интереснее!`;
+        codeBoxEl.style.display = 'none';
+    }
+}
+
+function restartQuiz() {
+    startQuiz();
+}
+
+function copyQuizCode() {
+    copyPromo('SWAG15');
+}
+
+// ============================================
+// ОФОРМЛЕНИЕ ЗАКАЗА
 // ============================================
 function openCheckoutModal() {
     if (cart.length === 0) {
@@ -319,12 +551,14 @@ function submitCheckout() {
     const phoneEl = document.getElementById('customer-phone');
     const telegramEl = document.getElementById('customer-telegram');
     const addressEl = document.getElementById('customer-address');
+    const promoEl = document.getElementById('customer-promo');
     const commentEl = document.getElementById('customer-comment');
 
     const name = nameEl ? nameEl.value.trim() : '';
     const phone = phoneEl ? phoneEl.value.trim() : '';
     const telegram = telegramEl ? telegramEl.value.trim() : '';
     const address = addressEl ? addressEl.value.trim() : '';
+    const promo = promoEl ? promoEl.value.trim() : '';
     const comment = commentEl ? commentEl.value.trim() : '';
 
     if (!name || !phone || !telegram || !address) {
@@ -344,6 +578,7 @@ function submitCheckout() {
 ${itemsText}
 
 💰 Итого: ${total.toLocaleString('ru-RU')} ₽
+${promo ? `🎁 Промокод: ${promo}` : ''}
 
 👤 Покупатель:
 • Имя: ${name}
@@ -383,6 +618,7 @@ function switchTab(tabId) {
     history.pushState(null, '', '#' + tabId);
 
     if (tabId === 'cart') renderCart();
+    if (tabId === 'games') renderClicker();
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -392,9 +628,11 @@ function switchTab(tabId) {
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
     loadData();
+    loadClicker();
     renderProducts();
     renderCart();
     updateCartCount();
+    renderClicker();
 
     document.querySelectorAll('[data-tab]').forEach(el => {
         el.addEventListener('click', function (e) {
@@ -414,6 +652,23 @@ document.addEventListener('DOMContentLoaded', function () {
         switchTab(tabId);
     });
 
+    // Кликер
+    const clickerBtn = document.getElementById('clicker-btn');
+    if (clickerBtn) {
+        clickerBtn.addEventListener('click', clickTheButton);
+    }
+
+    // Клик по награде — копирование промокода
+    document.querySelectorAll('.reward-item').forEach(el => {
+        el.addEventListener('click', () => {
+            if (el.classList.contains('unlocked') || el.classList.contains('available')) {
+                const code = el.querySelector('.reward-code').textContent;
+                copyPromo(code);
+            }
+        });
+    });
+
+    // Модалка
     const modal = document.getElementById('checkout-modal');
     if (modal) {
         modal.addEventListener('click', (e) => {
