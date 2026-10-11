@@ -369,7 +369,9 @@
                         <div class="cart-total">
                             <div class="cart-total-info">
                                 <span class="cart-total-label">Итого к оплате</span>
-                                <h3><span id="cart-total-price">0</span> ₽</h3>
+                               <h3>
+    <span id="cart-total-price">0</span><span class="rub-big">₽</span>
+</h3>
                             </div>
                             <button class="btn-primary btn-checkout" onclick="openCheckoutModal()">
                                 Оформить заказ
@@ -435,10 +437,12 @@
                     <textarea id="customer-comment" name="comment" placeholder="Например: позвоните перед доставкой" rows="2"></textarea>
                 </div>
 
-                <div class="checkout-summary">
-                    <span>К оплате:</span>
-                    <strong><span id="checkout-total">0</span> ₽</strong>
-                </div>
+<div class="checkout-summary">
+    <span>К оплате:</span>
+    <strong>
+        <span id="checkout-total">0</span><span class="rub">₽</span>
+    </strong>
+</div>
 
                 <button type="submit" class="btn-primary btn-submit">
                     Отправить заказ в Telegram

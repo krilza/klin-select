@@ -116,11 +116,10 @@ function loadData() {
             },
             {
                 id: 7,
-                name: "Xiaomi PowerBank 20000mAh",
-                description: "Быстрая зарядка, 2 USB порта, компактный корпус.",
+                name: "Беспроводной геймпад DualShock для PS4",
+                description: "Контроллер для комфортного управления в играх, беспроводное подключение Bluetooth.",
                 price: 1999,
                 image: "images/tech-2.jpg",
-                sizes: ["ONE SIZE"],
                 category: "tech"
             },
             {
@@ -190,7 +189,7 @@ function renderProducts() {
                     <div class="product-name">${escapeHtml(product.name)}</div>
                     <div class="product-description">${escapeHtml(product.description)}</div>
                     <div class="product-footer">
-                        <div class="product-price">${Number(product.price).toLocaleString('ru-RU')} ₽</div>
+                       <div class="product-price">${Number(product.price).toLocaleString('ru-RU')}<span class="rub-card">₽</span></div>
                         <div class="product-btn-view">Смотреть →</div>
                     </div>
                 </div>
@@ -243,7 +242,7 @@ function openProduct(productId) {
             <div class="product-detail-info">
                 <div class="product-detail-tag">${escapeHtml(catName)} • ЛИМИТЕД</div>
                 <h1 class="product-detail-name">${escapeHtml(product.name)}</h1>
-                <div class="product-detail-price">${Number(product.price).toLocaleString('ru-RU')} ₽</div>
+                <div class="product-detail-price">${Number(product.price).toLocaleString('ru-RU')}<span class="rub-card">₽</span></div>
                 <div class="product-detail-description">${escapeHtml(product.description)}</div>
 
                 <div class="product-detail-sizes">
@@ -331,7 +330,7 @@ function renderCart() {
             <div class="cart-item-info">
                 <div class="cart-item-name">${escapeHtml(item.name)}</div>
                 <div class="cart-item-size">Размер: <strong>${escapeHtml(item.selectedSize)}</strong></div>
-                <div class="cart-item-price">${Number(item.price).toLocaleString('ru-RU')} ₽</div>
+               <div class="cart-item-price">${Number(item.price).toLocaleString('ru-RU')}<span class="rub-card">₽</span></div>
                 <div class="qty-controls">
                     <button class="qty-btn" onclick="changeQty(${index}, -1)">−</button>
                     <span class="qty-value">${item.qty}</span>

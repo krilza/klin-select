@@ -1840,14 +1840,16 @@ a.contact-card:hover .contact-arrow {
     border: 1px solid rgba(160, 100, 255, 0.2);
     border-radius: 16px;
     margin-top: 5px;
+    gap: 15px;
 }
 
-.checkout-summary span {
+.checkout-summary span:first-child {
     font-size: 14px;
     color: rgba(240, 234, 255, 0.6);
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .checkout-summary strong {
@@ -1858,6 +1860,20 @@ a.contact-card:hover .contact-arrow {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+/* Символ рубля внутри strong — того же размера, выровнен по базовой линии */
+.checkout-summary strong .rub {
+    font-size: 0.85em;
+    font-weight: 800;
+    line-height: 1;
+    display: inline-block;
+    transform: translateY(-0.02em);
 }
 
 .btn-submit {
@@ -2102,4 +2118,23 @@ body.modal-open { overflow: hidden; }
         top: 12px;
         right: 12px;
     }
+    /* Символ рубля в корзине */
+.cart-total h3 .rub-big {
+    font-size: 0.7em;
+    font-weight: 800;
+    margin-left: 4px;
+    display: inline-block;
+    vertical-align: baseline;
+    transform: translateY(-0.03em);
+}
+
+/* Символ рубля в карточках товара */
+.product-price .rub-card {
+    font-size: 0.75em;
+    font-weight: 800;
+    margin-left: 3px;
+    display: inline-block;
+    transform: translateY(-0.02em);
+}
+    
 }
