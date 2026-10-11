@@ -2175,5 +2175,61 @@ body.modal-open { overflow: hidden; }
     display: inline-block;
     transform: translateY(-0.02em);
 }
+/* ============================================ */
+/* SVG-ИКОНКИ                                   */
+/* ============================================ */
+.logo-star {
+    width: 28px;
+    height: 28px;
+    display: inline-block;
+    vertical-align: -4px;
+    margin-right: 6px;
+    color: #b388ff;
+    filter: drop-shadow(0 0 12px rgba(179, 136, 255, 0.6));
+}
+
+.about-brand-icon svg {
+    width: 80px;
+    height: 80px;
+    color: #b388ff;
+    filter: drop-shadow(0 0 25px rgba(179, 136, 255, 0.5));
+    display: block;
+    margin: 0 auto;
+}
+
+.feature-icon-svg {
+    width: 36px;
+    height: 36px;
+    color: #b388ff;
+    display: block;
+}
+
+.game-icon svg {
+    color: #b388ff;
+    filter: drop-shadow(0 0 15px rgba(179, 136, 255, 0.5));
+    display: block;
+    margin: 0 auto;
+}
+
+.footer-logo svg {
+    color: #b388ff;
+}
+
+/* На мобильных уменьшаем */
+@media (max-width: 768px) {
+    .logo-star {
+        width: 22px;
+        height: 22px;
+        vertical-align: -3px;
+    }
+    .about-brand-icon svg {
+        width: 60px;
+        height: 60px;
+    }
+    .feature-icon-svg {
+        width: 32px;
+        height: 32px;
+    }
+}
     
 }
