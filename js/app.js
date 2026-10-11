@@ -16,12 +16,93 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Названия категорий для отображения
 const CATEGORY_NAMES = {
     clothes: 'Одежда',
     watches: 'Часы',
     tech: 'Техника'
 };
+
+// ============================================
+// ВАЛИДАЦИЯ ВВОДА
+// ============================================
+
+// Убираем лишние символы, оставляя только буквы/цифры/базовые знаки
+function sanitizeText(str, maxLength) {
+    if (!str) return '';
+    let s = String(str)
+        .replace(/[<>{}[\]\\|]/g, '')     // убираем опасные символы
+        .replace(/\s{2,}/g, ' ')          // двойные пробелы → один
+        .trim();
+    if (maxLength && s.length > maxLength) {
+        s = s.slice(0, maxLength);
+    }
+    return s;
+}
+
+// Имя: только буквы (русские/латинские), пробел, дефис, апостроф
+function sanitizeName(str) {
+    if (!str) return '';
+    let s = String(str)
+        .replace(/[^А-Яа-яЁёA-Za-z\s\-']/g, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+    return s.slice(0, 60);
+}
+
+// Телефон: оставляем только цифры и приводим к формату +7 (XXX) XXX-XX-XX
+function formatPhone(str) {
+    let digits = String(str || '').replace(/\D/g, '');
+    // если начинается с 8 — меняем на 7
+    if (digits.startsWith('8')) digits = '7' + digits.slice(1);
+    // если без 7 — добавляем
+    if (digits.length && !digits.startsWith('7')) digits = '7' + digits;
+    digits = digits.slice(0, 11);
+
+    if (!digits) return '';
+    if (digits.length <= 1) return '+7';
+    if (digits.length <= 4) return `+7 (${digits.slice(1)}`;
+    if (digits.length <= 7) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4)}`;
+    if (digits.length <= 9) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
+    return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`;
+}
+
+// Telegram: @username, буквы/цифры/подчёркивание
+function sanitizeTelegram(str) {
+    if (!str) return '';
+    let s = String(str).trim().replace(/^@+/, '');
+    s = s.replace(/[^A-Za-z0-9_]/g, '').slice(0, 32);
+    return s ? '@' + s : '';
+}
+
+// Адрес: любые буквы, цифры, пробел, точка, запятая, дефис, слэш, №
+function sanitizeAddress(str) {
+    if (!str) return '';
+    let s = String(str)
+        .replace(/[<>{}[\]\\|]/g, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+    return s.slice(0, 200);
+}
+
+// Комментарий: свободный, но без угловых скобок и ограничен 300 символами
+function sanitizeComment(str) {
+    if (!str) return '';
+    let s = String(str).replace(/[<>{}[\]\\|]/g, '').trim();
+    return s.slice(0, 300);
+}
+
+// Показывает ошибку на поле
+function showFieldError(id, message) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.borderColor = '#ff6b6b';
+    el.style.boxShadow = '0 0 0 4px rgba(255, 107, 107, 0.15)';
+    showToast(message, 'error');
+    setTimeout(() => {
+        el.style.borderColor = '';
+        el.style.boxShadow = '';
+    }, 2500);
+}
 
 // ============================================
 // TOAST
@@ -52,15 +133,13 @@ function initMarquee() {
     if (!track) return;
 
     const phrases = ['✦ ОДЕЖДА', '✦ ЧАСЫ', '✦ ТЕХНИКА', '✦ КАЧЕСТВО'];
+    const repeats = 6;
 
-    // Повторяем фразы много раз, чтобы лента точно была длиннее любого экрана
-    const repeats = 6;  // хватит с запасом для 4K-мониторов
     let inner = '';
     for (let i = 0; i < repeats; i++) {
         inner += phrases.map(p => `<span>${p}</span>`).join('');
     }
 
-    // Собираем одну ленту и дублируем её 2 раза
     const groupHTML = `<div class="marquee-group">${inner}</div>`;
     track.innerHTML = groupHTML + groupHTML;
 }
@@ -69,7 +148,6 @@ function initMarquee() {
 // ЗАГРУЗКА / СОХРАНЕНИЕ
 // ============================================
 function loadData() {
-    // Ключ v3 — старые товары сбрасываются
     const savedProducts = localStorage.getItem('swaglink_products_v3');
     const savedCart = localStorage.getItem('swaglink_cart');
 
@@ -79,7 +157,6 @@ function loadData() {
 
     if (!products.length) {
         products = [
-            // ОДЕЖДА
             {
                 id: 1,
                 name: "Худи undercover x grace 2009",
@@ -116,8 +193,6 @@ function loadData() {
                 sizes: ["37-41"],
                 category: "clothes"
             },
-
-            // ЧАСЫ
             {
                 id: 4,
                 name: "Часы WCS2 Серебро",
@@ -136,8 +211,6 @@ function loadData() {
                 sizes: ["ONE SIZE"],
                 category: "watches"
             },
-
-            // ТЕХНИКА
             {
                 id: 6,
                 name: "AirPods Pro 2",
@@ -147,15 +220,7 @@ function loadData() {
                 sizes: ["ONE SIZE"],
                 category: "tech"
             },
-            {
-                id: 7,
-                name: "Беспроводной геймпад DualShock для PS4",
-                description: "Контроллер для комфортного управления в играх. Беспроводное подключение Bluetooth, виброотдача, встроенный аккумулятор.",
-                price: 1999,
-                image: "images/tech-2.jpg",
-                sizes: ["ONE SIZE"],
-                category: "tech"
-            }
+            
         ];
         saveProducts();
     }
@@ -176,7 +241,7 @@ function saveCart() {
 }
 
 // ============================================
-// КАТАЛОГ (с подкаталогами)
+// КАТАЛОГ
 // ============================================
 function renderProducts() {
     const container = document.getElementById('product-container');
@@ -660,18 +725,51 @@ function submitCheckout() {
     const promoEl = document.getElementById('customer-promo');
     const commentEl = document.getElementById('customer-comment');
 
-    const name = nameEl ? nameEl.value.trim() : '';
-    const phone = phoneEl ? phoneEl.value.trim() : '';
-    const telegram = telegramEl ? telegramEl.value.trim() : '';
-    const address = addressEl ? addressEl.value.trim() : '';
-    const promo = promoEl ? promoEl.value.trim() : '';
-    const comment = commentEl ? commentEl.value.trim() : '';
+    // Читаем и валидируем
+    const name = sanitizeName(nameEl ? nameEl.value : '');
+    const phone = formatPhone(phoneEl ? phoneEl.value : '');
+    const telegram = sanitizeTelegram(telegramEl ? telegramEl.value : '');
+    const address = sanitizeAddress(addressEl ? addressEl.value : '');
+    const promo = sanitizeText(promoEl ? promoEl.value : '', 20).toUpperCase();
+    const comment = sanitizeComment(commentEl ? commentEl.value : '');
 
-    if (!name || !phone || !telegram || !address) {
-        showToast('Заполните все обязательные поля', 'error');
+    // Показываем очищенные значения обратно в форме
+    if (nameEl) nameEl.value = name;
+    if (phoneEl) phoneEl.value = phone;
+    if (telegramEl) telegramEl.value = telegram;
+    if (addressEl) addressEl.value = address;
+    if (promoEl) promoEl.value = promo;
+    if (commentEl) commentEl.value = comment;
+
+    // Проверка обязательных полей
+    if (name.length < 2) {
+        showFieldError('customer-name', 'Введите имя (только буквы, минимум 2 символа)');
         return;
     }
 
+    const phoneDigits = phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 11) {
+        showFieldError('customer-phone', 'Введите телефон полностью: +7 (XXX) XXX-XX-XX');
+        return;
+    }
+
+    if (telegram.length < 4) {
+        showFieldError('customer-telegram', 'Введите Telegram в формате @username');
+        return;
+    }
+
+    if (address.length < 5) {
+        showFieldError('customer-address', 'Введите полный адрес доставки (минимум 5 символов)');
+        return;
+    }
+
+    // Если промокод введён, но не из списка — предупреждаем
+    const validPromos = ['SWAG10', 'SWAG15', 'SWAG20', 'SWAG30'];
+    if (promo && !validPromos.includes(promo)) {
+        showToast(`Промокод «${promo}» не найден. Мы проверим его вручную.`, 'info');
+    }
+
+    // Считаем итог
     const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
     const itemsText = cart
         .map(item => `• ${item.name} (разм. ${item.selectedSize}) × ${item.qty} — ${item.price * item.qty} ₽`)
@@ -692,7 +790,7 @@ ${promo ? `🎁 Промокод: ${promo}` : ''}
 • Telegram: ${telegram}
 • Адрес: ${address}${comment ? `\n• Комментарий: ${comment}` : ''}`;
 
-    window.open(`https://t.me/Lyka6474?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://t.me/SwaglinkShop_bot?text=${encodeURIComponent(message)}`, '_blank');
 
     closeCheckoutModal();
     showToast('Заказ отправлен! Менеджер свяжется с вами.', 'success');
@@ -734,12 +832,36 @@ function switchTab(tabId) {
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
     initMarquee();
+
     loadData();
     loadClicker();
     renderProducts();
     renderCart();
     updateCartCount();
     renderClicker();
+
+    // Автоприменение форматирования при вводе телефона и Telegram
+    const phoneEl = document.getElementById('customer-phone');
+    if (phoneEl) {
+        phoneEl.addEventListener('input', function () {
+            const pos = this.selectionStart;
+            this.value = formatPhone(this.value);
+        });
+    }
+
+    const telegramEl = document.getElementById('customer-telegram');
+    if (telegramEl) {
+        telegramEl.addEventListener('blur', function () {
+            this.value = sanitizeTelegram(this.value);
+        });
+    }
+
+    const nameEl = document.getElementById('customer-name');
+    if (nameEl) {
+        nameEl.addEventListener('blur', function () {
+            this.value = sanitizeName(this.value);
+        });
+    }
 
     document.querySelectorAll('[data-tab]').forEach(el => {
         el.addEventListener('click', function (e) {
