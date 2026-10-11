@@ -1831,6 +1831,9 @@ a.contact-card:hover .contact-arrow {
     margin-top: -2px;
 }
 
+/* ============================================ */
+/* ИТОГО В МОДАЛКЕ ОФОРМЛЕНИЯ                   */
+/* ============================================ */
 .checkout-summary {
     display: flex;
     justify-content: space-between;
@@ -1843,7 +1846,7 @@ a.contact-card:hover .contact-arrow {
     gap: 15px;
 }
 
-.checkout-summary span:first-child {
+.checkout-summary > span {
     font-size: 14px;
     color: rgba(240, 234, 255, 0.6);
     text-transform: uppercase;
@@ -1853,27 +1856,27 @@ a.contact-card:hover .contact-arrow {
 }
 
 .checkout-summary strong {
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: -1px;
-    background: linear-gradient(135deg, #b388ff, #7c4dff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 14px;
+    font-weight: 700;
+    color: #b388ff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
     display: inline-flex;
     align-items: baseline;
-    gap: 6px;
-    white-space: nowrap;
+    gap: 4px;
     line-height: 1;
+    background: none;
+    -webkit-text-fill-color: #b388ff;
+    -webkit-background-clip: initial;
+    background-clip: initial;
 }
 
-/* Символ рубля внутри strong — того же размера, выровнен по базовой линии */
-.checkout-summary strong .rub {
-    font-size: 0.85em;
-    font-weight: 800;
-    line-height: 1;
-    display: inline-block;
-    transform: translateY(-0.02em);
+.checkout-summary strong #checkout-total {
+    font-size: 14px;
+    font-weight: 700;
+    color: #b388ff;
+    letter-spacing: 1px;
 }
 
 .btn-submit {
