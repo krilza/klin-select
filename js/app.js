@@ -48,7 +48,8 @@ function showToast(message, type = 'success') {
 // ЗАГРУЗКА / СОХРАНЕНИЕ
 // ============================================
 function loadData() {
-    const savedProducts = localStorage.getItem('swaglink_products_v2');
+    // Ключ v3 — старые товары сбрасываются
+    const savedProducts = localStorage.getItem('swaglink_products_v3');
     const savedCart = localStorage.getItem('swaglink_cart');
 
     if (savedProducts) {
@@ -85,11 +86,21 @@ function loadData() {
                 sizes: ["L", "M", "XL"],
                 category: "clothes"
             },
-            // ЧАСЫ (примеры - замени на свои)
+            {
+                id: 8,
+                name: "Набор носков Adidas",
+                description: "Классическая модель, проверенная временем. 3 пары, размер 37-41.",
+                price: 400,
+                image: "images/socks-1.png",
+                sizes: ["37-41"],
+                category: "clothes"
+            },
+
+            // ЧАСЫ
             {
                 id: 4,
                 name: "Часы WCS2 Серебро",
-                description: "Кварцевый механизм Гравировки на застежке Застежка клипса.",
+                description: "Кварцевый механизм. Гравировки на застёжке. Застёжка-клипса.",
                 price: 1500,
                 image: "images/watch-1.jpg",
                 sizes: ["ONE SIZE"],
@@ -97,14 +108,15 @@ function loadData() {
             },
             {
                 id: 5,
-                name: "Часы WCS2 Серебро с черным циферблатом",
-                description: "Кварцевый механизм Гравировки на застежке Застежка клипса.",
+                name: "Часы WCS2 Серебро с чёрным циферблатом",
+                description: "Кварцевый механизм. Гравировки на застёжке. Застёжка-клипса.",
                 price: 1500,
                 image: "images/watch-2.jpg",
                 sizes: ["ONE SIZE"],
                 category: "watches"
             },
-            // ТЕХНИКА (примеры - замени на свои)
+
+            // ТЕХНИКА
             {
                 id: 6,
                 name: "AirPods Pro 2",
@@ -117,19 +129,11 @@ function loadData() {
             {
                 id: 7,
                 name: "Беспроводной геймпад DualShock для PS4",
-                description: "Контроллер для комфортного управления в играх, беспроводное подключение Bluetooth.",
+                description: "Контроллер для комфортного управления в играх. Беспроводное подключение Bluetooth, виброотдача, встроенный аккумулятор.",
                 price: 1999,
                 image: "images/tech-2.jpg",
+                sizes: ["ONE SIZE"],
                 category: "tech"
-            },
-            {
-                id: 8,
-                name: "Набор носков Adidas",
-                description: "Классическая модель, проверенная временем. 3 пары размер 37-41",
-                price: 400,
-                image: "images/socks-1.png",
-                sizes: ["37-41"],
-                category: "clothes"
             }
         ];
         saveProducts();
@@ -143,7 +147,7 @@ function loadData() {
 }
 
 function saveProducts() {
-    localStorage.setItem('swaglink_products_v2', JSON.stringify(products));
+    localStorage.setItem('swaglink_products_v3', JSON.stringify(products));
 }
 
 function saveCart() {
@@ -157,7 +161,6 @@ function renderProducts() {
     const container = document.getElementById('product-container');
     if (!container) return;
 
-    // Фильтруем по категории
     const filtered = currentCategory === 'all'
         ? products
         : products.filter(p => p.category === currentCategory);
@@ -189,7 +192,7 @@ function renderProducts() {
                     <div class="product-name">${escapeHtml(product.name)}</div>
                     <div class="product-description">${escapeHtml(product.description)}</div>
                     <div class="product-footer">
-                       <div class="product-price">${Number(product.price).toLocaleString('ru-RU')}<span class="rub-card">₽</span></div>
+                        <div class="product-price">${Number(product.price).toLocaleString('ru-RU')}<span class="rub-card">₽</span></div>
                         <div class="product-btn-view">Смотреть →</div>
                     </div>
                 </div>
@@ -204,12 +207,10 @@ function renderProducts() {
 function filterByCategory(category) {
     currentCategory = category;
 
-    // Обновляем активную кнопку
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.category === category);
     });
 
-    // Перерисовываем каталог
     renderProducts();
 }
 
@@ -330,7 +331,7 @@ function renderCart() {
             <div class="cart-item-info">
                 <div class="cart-item-name">${escapeHtml(item.name)}</div>
                 <div class="cart-item-size">Размер: <strong>${escapeHtml(item.selectedSize)}</strong></div>
-               <div class="cart-item-price">${Number(item.price).toLocaleString('ru-RU')}<span class="rub-card">₽</span></div>
+                <div class="cart-item-price">${Number(item.price).toLocaleString('ru-RU')}<span class="rub-card">₽</span></div>
                 <div class="qty-controls">
                     <button class="qty-btn" onclick="changeQty(${index}, -1)">−</button>
                     <span class="qty-value">${item.qty}</span>
@@ -726,7 +727,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Кнопки фильтра категорий
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             filterByCategory(this.dataset.category);
