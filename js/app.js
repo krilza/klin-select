@@ -45,6 +45,27 @@ function showToast(message, type = 'success') {
 }
 
 // ============================================
+// БЕГУЩАЯ СТРОКА
+// ============================================
+function initMarquee() {
+    const track = document.getElementById('marquee-track');
+    if (!track) return;
+
+    const phrases = ['✦ ОДЕЖДА', '✦ ЧАСЫ', '✦ ТЕХНИКА', '✦ КАЧЕСТВО'];
+
+    // Повторяем фразы много раз, чтобы лента точно была длиннее любого экрана
+    const repeats = 6;  // хватит с запасом для 4K-мониторов
+    let inner = '';
+    for (let i = 0; i < repeats; i++) {
+        inner += phrases.map(p => `<span>${p}</span>`).join('');
+    }
+
+    // Собираем одну ленту и дублируем её 2 раза
+    const groupHTML = `<div class="marquee-group">${inner}</div>`;
+    track.innerHTML = groupHTML + groupHTML;
+}
+
+// ============================================
 // ЗАГРУЗКА / СОХРАНЕНИЕ
 // ============================================
 function loadData() {
@@ -712,6 +733,7 @@ function switchTab(tabId) {
 // ЗАПУСК
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
+    initMarquee();
     loadData();
     loadClicker();
     renderProducts();

@@ -349,6 +349,9 @@ body {
     background: rgba(160, 100, 255, 0.2);
 }
 
+/* ============================================ */
+/* БЕГУЩАЯ СТРОКА — бесконечный цикл            */
+/* ============================================ */
 .hero-marquee {
     position: relative;
     border-top: 1px solid rgba(160, 100, 255, 0.15);
@@ -357,26 +360,50 @@ body {
     padding: 18px 0;
     overflow: hidden;
     margin-top: 20px;
+    width: 100%;
 }
 
+/* Трек — flex, ширина по содержимому, анимация сдвига на 50% */
 .marquee-track {
     display: flex;
-    gap: 60px;
-    animation: marquee 30s linear infinite;
-    white-space: nowrap;
     width: max-content;
+    animation: marquee 40s linear infinite;
+    will-change: transform;
 }
 
-.marquee-track span {
+/* Одна "лента" (половина трека) */
+.marquee-group {
+    display: flex;
+    gap: 60px;
+    padding-right: 60px;
+    flex-shrink: 0;
+}
+
+.marquee-group span {
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 3px;
     color: rgba(179, 136, 255, 0.4);
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
+/* Сдвиг на 50% — на всю ширину одной ленты.
+   Так как лента = вторая лента, визуально шва нет */
 @keyframes marquee {
     from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    to   { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+    .marquee-group {
+        gap: 40px;
+        padding-right: 40px;
+    }
+    .marquee-group span {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
 }
 
 /* ============================================ */
@@ -2176,60 +2203,260 @@ body.modal-open { overflow: hidden; }
     transform: translateY(-0.02em);
 }
 /* ============================================ */
-/* SVG-ИКОНКИ                                   */
+/* SVG-ИКОНКИ — РАЗМЕРЫ И ЦВЕТА                */
 /* ============================================ */
+
+/* Звезда в логотипе — маленькая, аккуратная */
+.logo h1 {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1;
+}
+
 .logo-star {
-    width: 28px;
-    height: 28px;
-    display: inline-block;
-    vertical-align: -4px;
-    margin-right: 6px;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
     color: #b388ff;
-    filter: drop-shadow(0 0 12px rgba(179, 136, 255, 0.6));
+    filter: drop-shadow(0 0 8px rgba(179, 136, 255, 0.6));
+    display: block;
+}
+
+/* Иконка завода в "О нас" — умеренная, 64px */
+.about-brand-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
 }
 
 .about-brand-icon svg {
-    width: 80px;
-    height: 80px;
+    width: 64px;
+    height: 64px;
     color: #b388ff;
-    filter: drop-shadow(0 0 25px rgba(179, 136, 255, 0.5));
+    filter: drop-shadow(0 0 20px rgba(179, 136, 255, 0.5));
     display: block;
-    margin: 0 auto;
 }
 
+/* Иконки в карточках преимуществ — 40px */
 .feature-icon-svg {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     color: #b388ff;
     display: block;
 }
 
-.game-icon svg {
-    color: #b388ff;
-    filter: drop-shadow(0 0 15px rgba(179, 136, 255, 0.5));
-    display: block;
-    margin: 0 auto;
+/* Убеждаемся, что контейнер иконки не раздувается */
+.feature-icon-wrap {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
 }
 
-.footer-logo svg {
-    color: #b388ff;
-}
-
-/* На мобильных уменьшаем */
+/* Мобильный адаптив — уменьшаем SVG */
 @media (max-width: 768px) {
     .logo-star {
-        width: 22px;
-        height: 22px;
-        vertical-align: -3px;
+        width: 20px;
+        height: 20px;
     }
+
     .about-brand-icon svg {
-        width: 60px;
-        height: 60px;
+        width: 52px;
+        height: 52px;
     }
+
     .feature-icon-svg {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
     }
 }
+/* ============================================ */
+/* ФИКС РАЗМЕРОВ ИКОНОК                        */
+/* ============================================ */
+
+/* ЛОГОТИП */
+.logo h1 {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    line-height: 1 !important;
+    font-size: 26px !important;
+}
+
+.logo h1 svg {
+    width: 22px !important;
+    height: 22px !important;
+    flex-shrink: 0 !important;
+    color: #b388ff !important;
+}
+
+/* ИКОНКА ЗАВОДА — увеличенная */
+.about-brand-icon {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-bottom: 28px !important;
+}
+
+.about-brand-icon svg {
+    width: 90px !important;
+    height: 90px !important;
+    max-width: 90px !important;
+    max-height: 90px !important;
+    color: #b388ff !important;
+    filter: drop-shadow(0 0 25px rgba(179, 136, 255, 0.45)) !important;
+    display: block !important;
+}
+
+/* ============================================ */
+/* ИКОНКИ ИЗ ПАПКИ images/                     */
+/* ============================================ */
+
+/* ЛОГОТИП в шапке */
+.logo h1 {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    line-height: 1 !important;
+    font-size: 26px !important;
+}
+
+.logo-star-img {
+    width: 22px !important;
+    height: 22px !important;
+    flex-shrink: 0 !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 0 8px rgba(179, 136, 255, 0.7));
+}
+
+/* ЛОГОТИП в футере */
+.footer-star-img {
+    width: 18px !important;
+    height: 18px !important;
+    display: inline-block !important;
+    vertical-align: -3px !important;
+    margin-right: 6px !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 0 6px rgba(179, 136, 255, 0.6));
+}
+
+/* ИКОНКА ЗАВОДА (в «О нас») */
+.about-brand-icon {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-bottom: 28px !important;
+}
+
+.factory-icon-img {
+    width: 90px !important;
+    height: 90px !important;
+    max-width: 90px !important;
+    max-height: 90px !important;
+    display: block !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 0 22px rgba(167, 139, 250, 0.5));
+}
+
+/* ============================================ */
+/* КОНТЕЙНЕР ИКОНОК ПРЕИМУЩЕСТВ — фиксированный */
+/* ============================================ */
+.feature-icon-wrap {
+    width: 80px !important;
+    height: 80px !important;
+    min-width: 80px !important;
+    min-height: 80px !important;
+    max-width: 80px !important;
+    max-height: 80px !important;
+    padding: 18px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    overflow: hidden !important;
+    border-radius: 22px !important;
+    background: linear-gradient(135deg, rgba(179, 136, 255, 0.15), rgba(124, 77, 255, 0.15)) !important;
+    border: 1px solid rgba(160, 100, 255, 0.2) !important;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* САМА ИКОНКА — вписывается в контейнер без вылезания */
+.feature-icon-img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    display: block !important;
+    object-fit: contain !important;
+    overflow: hidden !important;
+    filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.5));
+}
+
+/* Лёгкое покачивание ракеты */
+.rocket-img {
+    animation: rocketFly 2s ease-in-out infinite;
+}
+
+@keyframes rocketFly {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-3px) rotate(-3deg); }
+}
+
+/* МОБИЛЬНЫЙ АДАПТИВ */
+@media (max-width: 768px) {
+    .logo h1 {
+        font-size: 22px !important;
+    }
+    .logo-star-img {
+        width: 18px !important;
+        height: 18px !important;
+    }
+    .factory-icon-img {
+        width: 70px !important;
+        height: 70px !important;
+        max-width: 70px !important;
+        max-height: 70px !important;
+    }
+    .feature-icon-wrap {
+        width: 68px !important;
+        height: 68px !important;
+        min-width: 68px !important;
+        min-height: 68px !important;
+        max-width: 68px !important;
+        max-height: 68px !important;
+        padding: 14px !important;
+    }
+}
+
+/* ============================================ */
+/* БЕГУЩАЯ СТРОКА — БЕСКОНЕЧНАЯ (без швов)       */
+/* ============================================ */
+.hero-marquee {
+    overflow: hidden !important;
+    position: relative;
+}
+
+.marquee-track {
+    display: inline-flex !important;
+    gap: 60px !important;
+    animation: marquee 40s linear infinite !important;
+    white-space: nowrap !important;
+    will-change: transform;
+}
+
+.marquee-track span {
+    flex-shrink: 0 !important;
+    display: inline-block !important;
+}
+
+/* Анимация: сдвиг ровно на половину (т.к. контент продублирован 3 раза) */
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-33.333%); }
+}
+
     
 }

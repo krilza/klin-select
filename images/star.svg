@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Star</title>
+  <path d="m64 17 13.8 28 30.9 4.5-22.4 21.8 5.3 30.8L64 87.6 36.4 102.1l5.3-30.8L19.3 49.5 50.2 45Z"
+        fill="none" stroke="#F4F0FF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m64 17 4 8" fill="none" stroke="#A78BFA" stroke-width="5.5" stroke-linecap="round"/>
+</svg>
