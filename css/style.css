@@ -610,13 +610,15 @@ body {
 }
 
 /* ============================================ */
-/* КАТАЛОГ                                      */
+/* КАТАЛОГ — ВЫРОВНЕННЫЕ КАРТОЧКИ                */
 /* ============================================ */
 .catalog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
     padding-bottom: 80px;
+    /* Растягиваем карточки по высоте в строке */
+    align-items: stretch;
 }
 
 .product-card {
@@ -627,6 +629,10 @@ body {
     border: 1px solid rgba(160, 100, 255, 0.1);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    /* Карточка — колонка, растягивается на всю высоту строки */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .product-card:hover {
@@ -639,6 +645,7 @@ body {
     position: relative;
     overflow: hidden;
     background: #1a1228;
+    flex-shrink: 0;
 }
 
 .product-image {
@@ -679,26 +686,46 @@ body {
     z-index: 2;
 }
 
-.product-info { padding: 22px 24px 24px; }
+.product-info {
+    padding: 22px 24px 24px;
+    /* Инфо растягивается, чтобы футер прижало к низу */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+}
 
 .product-name {
     font-size: 17px;
     font-weight: 700;
-    margin-bottom: 8px;
     color: #f0eaff;
     line-height: 1.4;
     letter-spacing: -0.3px;
+    /* Название обрезаем в 2 строки */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* Фиксируем высоту: 2 строки */
+    min-height: calc(1.4em * 2);
+    max-height: calc(1.4em * 2);
 }
 
 .product-description {
     font-size: 13.5px;
     color: rgba(240, 234, 255, 0.5);
-    margin-bottom: 18px;
-    line-height: 1.6;
+    line-height: 1.5;
+    /* Описание — ровно 2 строки */
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    /* Фиксируем высоту: 2 строки */
+    min-height: calc(1.5em * 2);
+    max-height: calc(1.5em * 2);
+    margin-bottom: 8px;
 }
 
 .product-footer {
@@ -706,6 +733,10 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 12px;
+    /* Футер всегда внизу карточки */
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid rgba(160, 100, 255, 0.08);
 }
 
 .product-price {
@@ -716,6 +747,8 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    white-space: nowrap;
+    /* Рубль наследуется из .rub-card */
 }
 
 .product-btn-view {
@@ -728,6 +761,7 @@ body {
     font-weight: 700;
     transition: all 0.3s ease;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .product-card:hover .product-btn-view {
@@ -2121,7 +2155,7 @@ body.modal-open { overflow: hidden; }
         top: 12px;
         right: 12px;
     }
-    /* Символ рубля в корзине */
+/* Символ рубля в корзине */
 .cart-total h3 .rub-big {
     font-size: 0.7em;
     font-weight: 800;
@@ -2132,7 +2166,9 @@ body.modal-open { overflow: hidden; }
 }
 
 /* Символ рубля в карточках товара */
-.product-price .rub-card {
+.product-price .rub-card,
+.product-detail-price .rub-card,
+.cart-item-price .rub-card {
     font-size: 0.75em;
     font-weight: 800;
     margin-left: 3px;
