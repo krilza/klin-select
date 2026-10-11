@@ -5,6 +5,7 @@ let products = [];
 let cart = [];
 let selectedSize = null;
 let currentProductId = null;
+let currentCategory = 'all';
 
 // ============================================
 // ХЕЛПЕР
@@ -14,6 +15,13 @@ function escapeHtml(text) {
     div.textContent = String(text ?? '');
     return div.innerHTML;
 }
+
+// Названия категорий для отображения
+const CATEGORY_NAMES = {
+    clothes: 'Одежда',
+    watches: 'Часы',
+    tech: 'Техника'
+};
 
 // ============================================
 // TOAST
@@ -40,7 +48,7 @@ function showToast(message, type = 'success') {
 // ЗАГРУЗКА / СОХРАНЕНИЕ
 // ============================================
 function loadData() {
-    const savedProducts = localStorage.getItem('swaglink_products');
+    const savedProducts = localStorage.getItem('swaglink_products_v2');
     const savedCart = localStorage.getItem('swaglink_cart');
 
     if (savedProducts) {
@@ -49,13 +57,15 @@ function loadData() {
 
     if (!products.length) {
         products = [
+            // ОДЕЖДА
             {
                 id: 1,
                 name: "Худи undercover x grace 2009",
                 description: "Эксклюзивное худи. Оверсайз крой, качественный хлопок.",
                 price: 4990,
                 image: "images/hoodie-1.jpg",
-                sizes: ["L", "M", "XL"]
+                sizes: ["L", "M", "XL"],
+                category: "clothes"
             },
             {
                 id: 2,
@@ -63,7 +73,8 @@ function loadData() {
                 description: "Коллаборация с легендарной группой.",
                 price: 3990,
                 image: "images/longsleeve-nin.jpg",
-                sizes: ["L", "M", "XL"]
+                sizes: ["L", "M", "XL"],
+                category: "clothes"
             },
             {
                 id: 3,
@@ -71,7 +82,55 @@ function loadData() {
                 description: "Классическая модель, проверенная временем.",
                 price: 5990,
                 image: "images/hoodie-1994.png",
-                sizes: ["L", "M", "XL"]
+                sizes: ["L", "M", "XL"],
+                category: "clothes"
+            },
+            // ЧАСЫ (примеры - замени на свои)
+            {
+                id: 4,
+                name: "Часы WCS2 Серебро",
+                description: "Кварцевый механизм Гравировки на застежке Застежка клипса.",
+                price: 1500,
+                image: "images/watch-1.jpg",
+                sizes: ["ONE SIZE"],
+                category: "watches"
+            },
+            {
+                id: 5,
+                name: "Часы WCS2 Серебро с черным циферблатом",
+                description: "Кварцевый механизм Гравировки на застежке Застежка клипса.",
+                price: 1500,
+                image: "images/watch-2.jpg",
+                sizes: ["ONE SIZE"],
+                category: "watches"
+            },
+            // ТЕХНИКА (примеры - замени на свои)
+            {
+                id: 6,
+                name: "AirPods Pro 2",
+                description: "Активное шумоподавление, до 6 часов работы.",
+                price: 5000,
+                image: "images/tech-1.jpg",
+                sizes: ["ONE SIZE"],
+                category: "tech"
+            },
+            {
+                id: 7,
+                name: "Xiaomi PowerBank 20000mAh",
+                description: "Быстрая зарядка, 2 USB порта, компактный корпус.",
+                price: 1999,
+                image: "images/tech-2.jpg",
+                sizes: ["ONE SIZE"],
+                category: "tech"
+            },
+            {
+                id: 8,
+                name: "Набор носков Adidas",
+                description: "Классическая модель, проверенная временем. 3 пары размер 37-41",
+                price: 400,
+                image: "images/socks-1.png",
+                sizes: ["37-41"],
+                category: "clothes"
             }
         ];
         saveProducts();
@@ -85,7 +144,7 @@ function loadData() {
 }
 
 function saveProducts() {
-    localStorage.setItem('swaglink_products', JSON.stringify(products));
+    localStorage.setItem('swaglink_products_v2', JSON.stringify(products));
 }
 
 function saveCart() {
@@ -93,37 +152,66 @@ function saveCart() {
 }
 
 // ============================================
-// КАТАЛОГ
+// КАТАЛОГ (с подкаталогами)
 // ============================================
 function renderProducts() {
     const container = document.getElementById('product-container');
     if (!container) return;
 
-    if (!products.length) {
-        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: rgba(240,234,255,0.5); padding: 60px 0;">Каталог пуст</p>';
+    // Фильтруем по категории
+    const filtered = currentCategory === 'all'
+        ? products
+        : products.filter(p => p.category === currentCategory);
+
+    if (!filtered.length) {
+        container.innerHTML = `
+            <div class="catalog-empty">
+                <span class="catalog-empty-icon">📦</span>
+                <p>В этой категории пока нет товаров</p>
+            </div>
+        `;
         return;
     }
 
-    container.innerHTML = products.map((product, index) => `
-        <div class="product-card" onclick="openProduct(${product.id})">
-            <div class="product-image-wrapper">
-                ${index === 0 ? '<div class="product-badge">Новинка</div>' : ''}
-                <img src="${escapeHtml(product.image)}"
-                     alt="${escapeHtml(product.name)}"
-                     class="product-image"
-                     loading="lazy"
-                     onerror="this.src='https://picsum.photos/400/500'">
-            </div>
-            <div class="product-info">
-                <div class="product-name">${escapeHtml(product.name)}</div>
-                <div class="product-description">${escapeHtml(product.description)}</div>
-                <div class="product-footer">
-                    <div class="product-price">${Number(product.price).toLocaleString('ru-RU')} ₽</div>
-                    <div class="product-btn-view">Смотреть →</div>
+    container.innerHTML = filtered.map((product, index) => {
+        const catName = CATEGORY_NAMES[product.category] || '';
+        return `
+            <div class="product-card" onclick="openProduct(${product.id})">
+                <div class="product-image-wrapper">
+                    ${index === 0 && currentCategory === 'all' ? '<div class="product-badge">Новинка</div>' : ''}
+                    ${catName ? `<div class="product-category-tag">${escapeHtml(catName)}</div>` : ''}
+                    <img src="${escapeHtml(product.image)}"
+                         alt="${escapeHtml(product.name)}"
+                         class="product-image"
+                         loading="lazy"
+                         onerror="this.src='https://picsum.photos/400/500'">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">${escapeHtml(product.name)}</div>
+                    <div class="product-description">${escapeHtml(product.description)}</div>
+                    <div class="product-footer">
+                        <div class="product-price">${Number(product.price).toLocaleString('ru-RU')} ₽</div>
+                        <div class="product-btn-view">Смотреть →</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
+}
+
+// ============================================
+// ФИЛЬТР КАТЕГОРИЙ
+// ============================================
+function filterByCategory(category) {
+    currentCategory = category;
+
+    // Обновляем активную кнопку
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === category);
+    });
+
+    // Перерисовываем каталог
+    renderProducts();
 }
 
 // ============================================
@@ -139,6 +227,8 @@ function openProduct(productId) {
     const container = document.getElementById('product-detail');
     if (!container) return;
 
+    const catName = CATEGORY_NAMES[product.category] || 'ТОВАР';
+
     const sizesHtml = product.sizes.map(size => `
         <button class="size-btn" onclick="selectSize('${escapeHtml(size)}')">${escapeHtml(size)}</button>
     `).join('');
@@ -151,7 +241,7 @@ function openProduct(productId) {
                      onerror="this.src='https://picsum.photos/600/600'">
             </div>
             <div class="product-detail-info">
-                <div class="product-detail-tag">ОРИГИНАЛ • ЛИМИТЕД</div>
+                <div class="product-detail-tag">${escapeHtml(catName)} • ЛИМИТЕД</div>
                 <h1 class="product-detail-name">${escapeHtml(product.name)}</h1>
                 <div class="product-detail-price">${Number(product.price).toLocaleString('ru-RU')} ₽</div>
                 <div class="product-detail-description">${escapeHtml(product.description)}</div>
@@ -309,7 +399,6 @@ function renderClicker() {
 
     scoreEl.textContent = clickerScore;
 
-    // Ближайшая цель
     let nextTarget = 100;
     let prevTarget = 0;
     if (clickerScore >= 100) { nextTarget = 500; prevTarget = 100; }
@@ -323,7 +412,6 @@ function renderClicker() {
         : 100;
     if (progressFill) progressFill.style.width = percent + '%';
 
-    // Отметки призов
     [100, 500, 1000].forEach(threshold => {
         const el = document.getElementById('reward-' + threshold);
         if (!el) return;
@@ -339,14 +427,12 @@ function renderClicker() {
 function clickTheButton() {
     clickerScore += 1;
 
-    // Небольшое увеличение за каждые 10 очков
     const scoreEl = document.getElementById('clicker-score');
     if (scoreEl) {
         scoreEl.classList.add('pop');
         setTimeout(() => scoreEl.classList.remove('pop'), 150);
     }
 
-    // Проверка наград
     [100, 500, 1000].forEach(threshold => {
         if (clickerScore >= threshold && !clickerUnlocked.includes(threshold)) {
             clickerUnlocked.push(threshold);
@@ -363,7 +449,6 @@ function copyPromo(code) {
     navigator.clipboard.writeText(code).then(() => {
         showToast(`Промокод ${code} скопирован!`, 'success');
     }).catch(() => {
-        // Fallback
         const input = document.createElement('input');
         input.value = code;
         document.body.appendChild(input);
@@ -642,6 +727,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Кнопки фильтра категорий
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            filterByCategory(this.dataset.category);
+        });
+    });
+
     if (window.location.hash) {
         const tabId = window.location.hash.replace('#', '');
         if (document.getElementById('tab-' + tabId)) switchTab(tabId);
@@ -652,13 +744,11 @@ document.addEventListener('DOMContentLoaded', function () {
         switchTab(tabId);
     });
 
-    // Кликер
     const clickerBtn = document.getElementById('clicker-btn');
     if (clickerBtn) {
         clickerBtn.addEventListener('click', clickTheButton);
     }
 
-    // Клик по награде — копирование промокода
     document.querySelectorAll('.reward-item').forEach(el => {
         el.addEventListener('click', () => {
             if (el.classList.contains('unlocked') || el.classList.contains('available')) {
@@ -668,7 +758,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Модалка
     const modal = document.getElementById('checkout-modal');
     if (modal) {
         modal.addEventListener('click', (e) => {

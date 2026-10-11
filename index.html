@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Swaglink — эксклюзивная одежда напрямую с заводов Китая.">
+    <meta name="description" content="Swaglink — эксклюзивная одежда, часы и техника напрямую с заводов Китая.">
     <meta name="theme-color" content="#7c4dff">
-    <title>Swaglink — Магазин одежды</title>
+    <title>Swaglink — Магазин одежды, часов и техники</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +53,7 @@
                             Стиль, который <br>
                             <span class="highlight">выбирают</span>
                         </h2>
-                        <p>Эксклюзивная одежда для тех, кто ценит качество и индивидуальность. Прямиком с заводов — без посредников.</p>
+                        <p>Эксклюзивная одежда, часы и техника для тех, кто ценит качество и индивидуальность. Прямиком с заводов — без посредников.</p>
                         <div class="hero-actions">
                             <a href="#catalog" class="btn-primary" data-tab="catalog">
                                 Смотреть каталог
@@ -82,9 +82,9 @@
                 </div>
                 <div class="hero-marquee">
                     <div class="marquee-track">
-                        <span>✦ ОВЕРСАЙЗ</span><span>✦ ЛИМИТЕД</span><span>✦ ЭКСКЛЮЗИВ</span><span>✦ КАЧЕСТВО</span>
-                        <span>✦ ОВЕРСАЙЗ</span><span>✦ ЛИМИТЕД</span><span>✦ ЭКСКЛЮЗИВ</span><span>✦ КАЧЕСТВО</span>
-                        <span>✦ ОВЕРСАЙЗ</span><span>✦ ЛИМИТЕД</span><span>✦ ЭКСКЛЮЗИВ</span><span>✦ КАЧЕСТВО</span>
+                        <span>✦ ОДЕЖДА</span><span>✦ ЧАСЫ</span><span>✦ ТЕХНИКА</span><span>✦ КАЧЕСТВО</span>
+                        <span>✦ ОДЕЖДА</span><span>✦ ЧАСЫ</span><span>✦ ТЕХНИКА</span><span>✦ КАЧЕСТВО</span>
+                        <span>✦ ОДЕЖДА</span><span>✦ ЧАСЫ</span><span>✦ ТЕХНИКА</span><span>✦ КАЧЕСТВО</span>
                     </div>
                 </div>
             </div>
@@ -156,6 +156,27 @@
                     <h2 class="page-title">Наш каталог</h2>
                     <p class="page-subtitle">Отобрано вручную. Проверено лично.</p>
                 </div>
+
+                <!-- Подкаталоги -->
+                <div class="category-filter">
+                    <button class="category-btn active" data-category="all">
+                        <span class="category-icon">✦</span>
+                        <span>Все</span>
+                    </button>
+                    <button class="category-btn" data-category="clothes">
+                        <span class="category-icon">👕</span>
+                        <span>Одежда</span>
+                    </button>
+                    <button class="category-btn" data-category="watches">
+                        <span class="category-icon">⌚</span>
+                        <span>Часы</span>
+                    </button>
+                    <button class="category-btn" data-category="tech">
+                        <span class="category-icon">📱</span>
+                        <span>Техника</span>
+                    </button>
+                </div>
+
                 <div class="catalog-grid" id="product-container"></div>
             </div>
         </section>
