@@ -124,7 +124,7 @@ body {
     background-clip: text;
     letter-spacing: 2px;
     font-weight: 900;
-    line-height: 1;
+    line-height: 1.2;
 }
 
 .nav {
@@ -160,6 +160,23 @@ body {
 .nav-link:hover::after,
 .nav-link.active::after { width: 100%; }
 .nav-link.active { color: #b388ff; }
+
+.cart-icon-svg {
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important;
+    color: currentColor;
+    stroke: currentColor;
+    vertical-align: middle !important;
+    transform: translateY(-1px);
+}
+
+.nav-link.active .cart-icon-svg {
+    color: #b388ff;
+}
 
 .cart-count {
     background: #7c4dff;
@@ -691,7 +708,7 @@ body {
 }
 
 /* ============================================ */
-/* КАТАЛОГ — ВЫРОВНЕННЫЕ КАРТОЧКИ                */
+/* КАТАЛОГ                                      */
 /* ============================================ */
 .catalog-grid {
     display: grid;
@@ -1119,381 +1136,6 @@ body {
 }
 
 .perk-item span:first-child { font-size: 16px; }
-
-/* ============================================ */
-/* ИГРЫ                                         */
-/* ============================================ */
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 30px;
-    padding-bottom: 80px;
-}
-
-.game-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(160, 100, 255, 0.15);
-    border-radius: 28px;
-    padding: 35px 30px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s ease;
-}
-
-.game-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #b388ff, transparent);
-}
-
-.game-card:hover {
-    border-color: rgba(160, 100, 255, 0.35);
-    box-shadow: 0 20px 60px rgba(124, 77, 255, 0.15);
-}
-
-.game-card-header {
-    text-align: center;
-    margin-bottom: 28px;
-}
-
-.game-icon {
-    font-size: 48px;
-    display: block;
-    margin-bottom: 12px;
-    filter: drop-shadow(0 0 20px rgba(124, 77, 255, 0.5));
-}
-
-.game-card-header h3 {
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 6px;
-    letter-spacing: -0.5px;
-    color: #f0eaff;
-}
-
-.game-card-header p {
-    font-size: 14px;
-    color: rgba(240, 234, 255, 0.5);
-}
-
-/* КЛИКЕР */
-.clicker-score {
-    text-align: center;
-    margin-bottom: 24px;
-}
-
-.clicker-score span:first-child {
-    display: block;
-    font-size: 56px;
-    font-weight: 900;
-    letter-spacing: -2px;
-    line-height: 1;
-    background: linear-gradient(135deg, #b388ff, #7c4dff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    transition: transform 0.15s ease;
-}
-
-.clicker-score span:first-child.pop { transform: scale(1.15); }
-
-.clicker-score-label {
-    font-size: 13px;
-    color: rgba(240, 234, 255, 0.5);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-top: 6px;
-    display: block;
-}
-
-.clicker-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 180px;
-    height: 180px;
-    margin: 0 auto 28px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #b388ff, #7c4dff);
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 900;
-    transition: all 0.15s ease;
-    box-shadow:
-        0 0 0 10px rgba(124, 77, 255, 0.15),
-        0 0 0 20px rgba(124, 77, 255, 0.08),
-        0 20px 40px rgba(124, 77, 255, 0.4);
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.clicker-btn:hover {
-    transform: scale(1.05);
-    box-shadow:
-        0 0 0 15px rgba(124, 77, 255, 0.2),
-        0 0 0 30px rgba(124, 77, 255, 0.1),
-        0 25px 50px rgba(124, 77, 255, 0.5);
-}
-
-.clicker-btn:active { transform: scale(0.95); }
-
-.clicker-btn-icon {
-    font-size: 52px;
-    line-height: 1;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-}
-
-.clicker-btn-text { font-size: 14px; letter-spacing: 3px; }
-
-.clicker-progress { margin-bottom: 24px; }
-
-.clicker-progress-info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: rgba(240, 234, 255, 0.6);
-    margin-bottom: 8px;
-}
-
-.clicker-progress-bar {
-    height: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 50px;
-    overflow: hidden;
-    border: 1px solid rgba(160, 100, 255, 0.15);
-}
-
-.clicker-progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #b388ff, #7c4dff);
-    border-radius: 50px;
-    transition: width 0.3s ease;
-    box-shadow: 0 0 15px rgba(124, 77, 255, 0.6);
-}
-
-.clicker-rewards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.reward-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 14px 8px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(160, 100, 255, 0.1);
-    border-radius: 14px;
-    transition: all 0.3s ease;
-}
-
-.reward-item.available {
-    border-color: #7c4dff;
-    background: linear-gradient(135deg, rgba(179, 136, 255, 0.15), rgba(124, 77, 255, 0.15));
-    box-shadow: 0 0 20px rgba(124, 77, 255, 0.3);
-    cursor: pointer;
-}
-
-.reward-item.unlocked {
-    border-color: rgba(76, 217, 100, 0.5);
-    background: rgba(76, 217, 100, 0.08);
-}
-
-.reward-percent {
-    font-size: 20px;
-    font-weight: 900;
-    color: #b388ff;
-    letter-spacing: -0.5px;
-}
-
-.reward-code {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: rgba(240, 234, 255, 0.5);
-    text-transform: uppercase;
-}
-
-.reward-item.available .reward-code,
-.reward-item.unlocked .reward-code { color: #f0eaff; }
-
-.game-reset {
-    width: 100%;
-    padding: 10px;
-    font-size: 13px;
-    border-radius: 12px;
-    opacity: 0.6;
-}
-
-.game-reset:hover { opacity: 1; }
-
-/* УГАДАЙ БРЕНД */
-.quiz-start { text-align: center; padding: 30px 0; }
-
-.quiz-start-text {
-    font-size: 15px;
-    color: rgba(240, 234, 255, 0.7);
-    margin-bottom: 25px;
-    line-height: 1.7;
-}
-
-.quiz-start-text strong { color: #b388ff; }
-
-.quiz-progress {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: rgba(240, 234, 255, 0.5);
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(160, 100, 255, 0.1);
-}
-
-.quiz-question {
-    font-size: 18px;
-    font-weight: 700;
-    color: #f0eaff;
-    text-align: center;
-    padding: 20px 0;
-    line-height: 1.5;
-    min-height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.quiz-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.quiz-option {
-    padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px solid rgba(160, 100, 255, 0.15);
-    border-radius: 14px;
-    color: #f0eaff;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: inherit;
-    text-align: center;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.quiz-option:hover:not(.disabled) {
-    border-color: #7c4dff;
-    background: rgba(124, 77, 255, 0.1);
-    transform: translateY(-2px);
-}
-
-.quiz-option.correct {
-    border-color: rgba(76, 217, 100, 0.8);
-    background: rgba(76, 217, 100, 0.15);
-    color: #4cd964;
-}
-
-.quiz-option.wrong {
-    border-color: rgba(255, 107, 107, 0.8);
-    background: rgba(255, 107, 107, 0.15);
-    color: #ff6b6b;
-}
-
-.quiz-option.disabled { cursor: not-allowed; opacity: 0.6; }
-
-.quiz-feedback {
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-    min-height: 24px;
-    padding: 8px 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.quiz-feedback.show { opacity: 1; }
-.quiz-feedback.success { color: #4cd964; }
-.quiz-feedback.error { color: #ff6b6b; }
-
-.quiz-result {
-    text-align: center;
-    padding: 20px 0;
-    animation: fadeIn 0.5s ease;
-}
-
-.quiz-result-icon {
-    font-size: 64px;
-    margin-bottom: 15px;
-    filter: drop-shadow(0 0 20px rgba(124, 77, 255, 0.5));
-}
-
-.quiz-result h4 {
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 10px;
-    color: #f0eaff;
-    letter-spacing: -0.5px;
-}
-
-.quiz-result p {
-    font-size: 15px;
-    color: rgba(240, 234, 255, 0.6);
-    margin-bottom: 22px;
-}
-
-.quiz-result-code {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    padding: 20px;
-    background: linear-gradient(135deg, rgba(179, 136, 255, 0.12), rgba(124, 77, 255, 0.08));
-    border: 1px solid rgba(160, 100, 255, 0.3);
-    border-radius: 16px;
-    margin-bottom: 22px;
-}
-
-.quiz-result-code span {
-    font-size: 12px;
-    color: rgba(240, 234, 255, 0.5);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.quiz-result-code strong {
-    font-size: 28px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, #b388ff, #7c4dff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.quiz-result-code .btn-ghost {
-    padding: 8px 18px;
-    font-size: 13px;
-}
-
-.quiz-result .btn-primary { width: 100%; }
 
 /* ============================================ */
 /* КОНТАКТЫ                                     */
@@ -2131,6 +1773,13 @@ body.modal-open { overflow: hidden; }
         max-height: 16px !important;
     }
 
+    .cart-icon-svg {
+        width: 16px !important;
+        height: 16px !important;
+        max-width: 16px !important;
+        max-height: 16px !important;
+    }
+
     .hero { padding: 60px 0 0; }
     .hero-content { padding-bottom: 60px; }
     .hero-content h2 { font-size: 42px; letter-spacing: -1px; }
@@ -2215,14 +1864,6 @@ body.modal-open { overflow: hidden; }
     .product-detail-price { font-size: 32px; }
     .product-detail-image img { max-height: 500px; }
     .btn-back { margin-top: 20px; }
-
-    .games-grid { grid-template-columns: 1fr; gap: 20px; }
-    .game-card { padding: 28px 22px; }
-    .clicker-btn { width: 150px; height: 150px; }
-    .clicker-btn-icon { font-size: 42px; }
-    .clicker-score span:first-child { font-size: 44px; }
-    .quiz-options { grid-template-columns: 1fr; }
-    .quiz-question { font-size: 16px; }
 
     .contact-card { padding: 18px 20px; }
     .contact-icon-wrap { width: 48px; height: 48px; }

@@ -1,3 +1,19 @@
+// В самом начале js/app.js, до всех функций
+
+const APP_VERSION = 'v1.0'; // <-- МЕНЯЙ ЭТУ ЦИФРУ при больших обновлениях каталога
+
+// Проверяем, совпадает ли версия
+if (localStorage.getItem('swaglink_app_version') !== APP_VERSION) {
+    // Если версия новая, а данные старые — очищаем старый кэш
+    localStorage.removeItem('swaglink_products_v4');
+    localStorage.removeItem('swaglink_products_v3');
+    localStorage.removeItem('swaglink_products_v2');
+    localStorage.removeItem('swaglink_products');
+    localStorage.removeItem('swaglink_cart'); // Корзину тоже лучше сбросить, если формат изменился
+    
+    // Записываем, что мы уже обновились до новой версии
+    localStorage.setItem('swaglink_app_version', APP_VERSION);
+}
 // ============================================
 // ДАННЫЕ
 // ============================================
@@ -25,21 +41,16 @@ const CATEGORY_NAMES = {
 // ============================================
 // ВАЛИДАЦИЯ ВВОДА
 // ============================================
-
-// Убираем лишние символы, оставляя только буквы/цифры/базовые знаки
 function sanitizeText(str, maxLength) {
     if (!str) return '';
     let s = String(str)
-        .replace(/[<>{}[\]\\|]/g, '')     // убираем опасные символы
-        .replace(/\s{2,}/g, ' ')          // двойные пробелы → один
+        .replace(/[<>{}[\]\\|]/g, '')
+        .replace(/\s{2,}/g, ' ')
         .trim();
-    if (maxLength && s.length > maxLength) {
-        s = s.slice(0, maxLength);
-    }
+    if (maxLength && s.length > maxLength) s = s.slice(0, maxLength);
     return s;
 }
 
-// Имя: только буквы (русские/латинские), пробел, дефис, апостроф
 function sanitizeName(str) {
     if (!str) return '';
     let s = String(str)
@@ -49,15 +60,11 @@ function sanitizeName(str) {
     return s.slice(0, 60);
 }
 
-// Телефон: оставляем только цифры и приводим к формату +7 (XXX) XXX-XX-XX
 function formatPhone(str) {
     let digits = String(str || '').replace(/\D/g, '');
-    // если начинается с 8 — меняем на 7
     if (digits.startsWith('8')) digits = '7' + digits.slice(1);
-    // если без 7 — добавляем
     if (digits.length && !digits.startsWith('7')) digits = '7' + digits;
     digits = digits.slice(0, 11);
-
     if (!digits) return '';
     if (digits.length <= 1) return '+7';
     if (digits.length <= 4) return `+7 (${digits.slice(1)}`;
@@ -66,7 +73,6 @@ function formatPhone(str) {
     return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`;
 }
 
-// Telegram: @username, буквы/цифры/подчёркивание
 function sanitizeTelegram(str) {
     if (!str) return '';
     let s = String(str).trim().replace(/^@+/, '');
@@ -74,7 +80,6 @@ function sanitizeTelegram(str) {
     return s ? '@' + s : '';
 }
 
-// Адрес: любые буквы, цифры, пробел, точка, запятая, дефис, слэш, №
 function sanitizeAddress(str) {
     if (!str) return '';
     let s = String(str)
@@ -84,14 +89,12 @@ function sanitizeAddress(str) {
     return s.slice(0, 200);
 }
 
-// Комментарий: свободный, но без угловых скобок и ограничен 300 символами
 function sanitizeComment(str) {
     if (!str) return '';
     let s = String(str).replace(/[<>{}[\]\\|]/g, '').trim();
     return s.slice(0, 300);
 }
 
-// Показывает ошибку на поле
 function showFieldError(id, message) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -132,7 +135,7 @@ function initMarquee() {
     const track = document.getElementById('marquee-track');
     if (!track) return;
 
-    const phrases = ['✦ ОДЕЖДА', '✦ ЧАСЫ', '✦ ТЕХНИКА', '✦ КАЧЕСТВО'];
+    const phrases = ['✦ ОДЕЖДА', '✦ ЧАСЫ', '✦ ТЕХНИКА', '✦ КАЧЕСТВО', '✦ ИВАНОВО'];
     const repeats = 6;
 
     let inner = '';
@@ -148,7 +151,7 @@ function initMarquee() {
 // ЗАГРУЗКА / СОХРАНЕНИЕ
 // ============================================
 function loadData() {
-    const savedProducts = localStorage.getItem('swaglink_products_v3');
+    const savedProducts = localStorage.getItem('swaglink_products_v4');
     const savedCart = localStorage.getItem('swaglink_cart');
 
     if (savedProducts) {
@@ -220,7 +223,15 @@ function loadData() {
                 sizes: ["ONE SIZE"],
                 category: "tech"
             },
-            
+            {
+                id: 7,
+                name: "Беспроводной геймпад DualShock для PS4",
+                description: "Контроллер для комфортного управления в играх. Беспроводное подключение Bluetooth.",
+                price: 1999,
+                image: "images/tech-2.jpg",
+                sizes: ["ONE SIZE"],
+                category: "tech"
+            }
         ];
         saveProducts();
     }
@@ -233,7 +244,7 @@ function loadData() {
 }
 
 function saveProducts() {
-    localStorage.setItem('swaglink_products_v3', JSON.stringify(products));
+    localStorage.setItem('swaglink_products_v4', JSON.stringify(products));
 }
 
 function saveCart() {
@@ -247,9 +258,10 @@ function renderProducts() {
     const container = document.getElementById('product-container');
     if (!container) return;
 
+    const visible = products.filter(p => !p.hidden);
     const filtered = currentCategory === 'all'
-        ? products
-        : products.filter(p => p.category === currentCategory);
+        ? visible
+        : visible.filter(p => p.category === currentCategory);
 
     if (!filtered.length) {
         container.innerHTML = `
@@ -342,9 +354,9 @@ function openProduct(productId) {
                 </button>
 
                 <div class="product-detail-perks">
-                    <div class="perk-item"><span>🚀</span><span>Доставка 2-3 дня</span></div>
+                    <div class="perk-item"><span>⚡</span><span>Доставка в день заказа по Иваново</span></div>
                     <div class="perk-item"><span>🔄</span><span>Возврат 14 дней</span></div>
-                    <div class="perk-item"><span>⭐</span><span>Гарантия качества</span></div>
+                    <div class="perk-item"><span>⭐</span><span>Оригинал и реплики</span></div>
                 </div>
             </div>
         </div>
@@ -458,233 +470,6 @@ function updateCartCount() {
 }
 
 // ============================================
-// ИГРА 1: КЛИКЕР
-// ============================================
-const CLICKER_KEY = 'swaglink_clicker_score';
-const CLICKER_REWARDS_KEY = 'swaglink_clicker_rewards';
-let clickerScore = 0;
-let clickerUnlocked = [];
-
-function loadClicker() {
-    clickerScore = parseInt(localStorage.getItem(CLICKER_KEY) || '0', 10);
-    try {
-        clickerUnlocked = JSON.parse(localStorage.getItem(CLICKER_REWARDS_KEY) || '[]');
-    } catch { clickerUnlocked = []; }
-}
-
-function saveClicker() {
-    localStorage.setItem(CLICKER_KEY, clickerScore.toString());
-    localStorage.setItem(CLICKER_REWARDS_KEY, JSON.stringify(clickerUnlocked));
-}
-
-function renderClicker() {
-    const scoreEl = document.getElementById('clicker-score');
-    const progressText = document.getElementById('clicker-progress-text');
-    const progressFill = document.getElementById('clicker-progress-fill');
-    if (!scoreEl) return;
-
-    scoreEl.textContent = clickerScore;
-
-    let nextTarget = 100;
-    let prevTarget = 0;
-    if (clickerScore >= 100) { nextTarget = 500; prevTarget = 100; }
-    if (clickerScore >= 500) { nextTarget = 1000; prevTarget = 500; }
-    if (clickerScore >= 1000) { nextTarget = 1000; prevTarget = 1000; }
-
-    if (progressText) progressText.textContent = `${Math.min(clickerScore, nextTarget)} / ${nextTarget}`;
-
-    const percent = nextTarget > prevTarget
-        ? Math.min(100, ((clickerScore - prevTarget) / (nextTarget - prevTarget)) * 100)
-        : 100;
-    if (progressFill) progressFill.style.width = percent + '%';
-
-    [100, 500, 1000].forEach(threshold => {
-        const el = document.getElementById('reward-' + threshold);
-        if (!el) return;
-        el.classList.remove('available', 'unlocked');
-        if (clickerUnlocked.includes(threshold)) {
-            el.classList.add('unlocked');
-        } else if (clickerScore >= threshold) {
-            el.classList.add('available');
-        }
-    });
-}
-
-function clickTheButton() {
-    clickerScore += 1;
-
-    const scoreEl = document.getElementById('clicker-score');
-    if (scoreEl) {
-        scoreEl.classList.add('pop');
-        setTimeout(() => scoreEl.classList.remove('pop'), 150);
-    }
-
-    [100, 500, 1000].forEach(threshold => {
-        if (clickerScore >= threshold && !clickerUnlocked.includes(threshold)) {
-            clickerUnlocked.push(threshold);
-            const reward = threshold === 100 ? '10%' : threshold === 500 ? '20%' : '30%';
-            showToast(`🎉 Достижение! Промокод на скидку ${reward}`, 'success');
-        }
-    });
-
-    saveClicker();
-    renderClicker();
-}
-
-function copyPromo(code) {
-    navigator.clipboard.writeText(code).then(() => {
-        showToast(`Промокод ${code} скопирован!`, 'success');
-    }).catch(() => {
-        const input = document.createElement('input');
-        input.value = code;
-        document.body.appendChild(input);
-        input.select();
-        try { document.execCommand('copy'); showToast(`Промокод ${code} скопирован!`, 'success'); } catch {}
-        document.body.removeChild(input);
-    });
-}
-
-function resetClicker() {
-    if (!confirm('Сбросить прогресс в кликере?')) return;
-    clickerScore = 0;
-    clickerUnlocked = [];
-    saveClicker();
-    renderClicker();
-    showToast('Прогресс кликера сброшен', 'info');
-}
-
-// ============================================
-// ИГРА 2: УГАДАЙ БРЕНД
-// ============================================
-const QUIZ_QUESTIONS = [
-    { q: "Худи под каким брендом носил Курт Кобейн?", a: "Fender", options: ["Nike", "Fender", "Adidas", "Puma"], correct: 1 },
-    { q: "Какой бренд основал Трэвис Скотт?", a: "Cactus Jack", options: ["Yeezy", "Cactus Jack", "Off-White", "Supreme"], correct: 1 },
-    { q: "Кто основал бренд Off-White?", a: "Вирджил Абло", options: ["Йоджи Ямамото", "Вирджил Абло", "Раф Симонс", "Канье Уэст"], correct: 1 },
-    { q: "Supreme — это бренд из какого города?", a: "Нью-Йорк", options: ["Лондон", "Лос-Анджелес", "Нью-Йорк", "Токио"], correct: 2 },
-    { q: "Какой бренд производит кроссовки Air Max?", a: "Nike", options: ["Adidas", "Puma", "Nike", "Reebok"], correct: 2 },
-    { q: "Balenciaga — это бренд из какой страны?", a: "Испания", options: ["Италия", "Франция", "Испания", "Германия"], correct: 2 },
-    { q: "Какой бренд носит слоган «Impossible is Nothing»?", a: "Adidas", options: ["Nike", "Adidas", "Puma", "Reebok"], correct: 1 },
-    { q: "Yeezy — это коллаборация Adidas с кем?", a: "Канье Уэст", options: ["Трэвис Скотт", "Канье Уэст", "Дрейк", "Фаррелл"], correct: 1 },
-    { q: "Какой бренд создал сумку Birkin?", a: "Hermès", options: ["Chanel", "Hermès", "Louis Vuitton", "Gucci"], correct: 1 },
-    { q: "Какой бренд носил название Blue Ribbon Sports?", a: "Nike", options: ["Adidas", "Puma", "Nike", "New Balance"], correct: 2 }
-];
-
-let quizQuestions = [];
-let quizCurrent = 0;
-let quizScore = 0;
-
-function shuffleArray(arr) {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-}
-
-function startQuiz() {
-    quizQuestions = shuffleArray(QUIZ_QUESTIONS).slice(0, 10);
-    quizCurrent = 0;
-    quizScore = 0;
-
-    document.getElementById('quiz-start').style.display = 'none';
-    document.getElementById('quiz-result').style.display = 'none';
-    document.getElementById('quiz-content').style.display = 'block';
-    document.getElementById('quiz-total').textContent = quizQuestions.length;
-
-    renderQuizQuestion();
-}
-
-function renderQuizQuestion() {
-    const q = quizQuestions[quizCurrent];
-    if (!q) return finishQuiz();
-
-    document.getElementById('quiz-current').textContent = quizCurrent + 1;
-    document.getElementById('quiz-score').textContent = quizScore;
-    document.getElementById('quiz-question').textContent = q.q;
-
-    const feedback = document.getElementById('quiz-feedback');
-    feedback.textContent = '';
-    feedback.classList.remove('show', 'success', 'error');
-
-    const optionsEl = document.getElementById('quiz-options');
-    optionsEl.innerHTML = q.options.map((opt, i) => `
-        <button class="quiz-option" onclick="answerQuiz(${i})">${escapeHtml(opt)}</button>
-    `).join('');
-}
-
-function answerQuiz(index) {
-    const q = quizQuestions[quizCurrent];
-    if (!q) return;
-
-    const buttons = document.querySelectorAll('.quiz-option');
-    const feedback = document.getElementById('quiz-feedback');
-
-    buttons.forEach((btn, i) => {
-        btn.classList.add('disabled');
-        btn.disabled = true;
-        if (i === q.correct) btn.classList.add('correct');
-        if (i === index && i !== q.correct) btn.classList.add('wrong');
-    });
-
-    if (index === q.correct) {
-        quizScore += 1;
-        feedback.textContent = '✅ Правильно!';
-        feedback.classList.add('show', 'success');
-    } else {
-        feedback.textContent = `❌ Неверно. Правильный ответ: ${q.a}`;
-        feedback.classList.add('show', 'error');
-    }
-
-    document.getElementById('quiz-score').textContent = quizScore;
-
-    setTimeout(() => {
-        quizCurrent += 1;
-        if (quizCurrent < quizQuestions.length) {
-            renderQuizQuestion();
-        } else {
-            finishQuiz();
-        }
-    }, 1500);
-}
-
-function finishQuiz() {
-    document.getElementById('quiz-content').style.display = 'none';
-    const result = document.getElementById('quiz-result');
-    result.style.display = 'block';
-
-    const iconEl = document.getElementById('quiz-result-icon');
-    const titleEl = document.getElementById('quiz-result-title');
-    const textEl = document.getElementById('quiz-result-text');
-    const codeBoxEl = document.getElementById('quiz-result-code');
-
-    if (quizScore >= 8) {
-        iconEl.textContent = '🏆';
-        titleEl.textContent = 'Отличный результат!';
-        textEl.textContent = `Ты ответил правильно на ${quizScore} из ${quizQuestions.length}. Держи промокод на скидку 15%!`;
-        codeBoxEl.style.display = 'flex';
-    } else if (quizScore >= 5) {
-        iconEl.textContent = '👏';
-        titleEl.textContent = 'Неплохо!';
-        textEl.textContent = `Правильных ответов: ${quizScore} из ${quizQuestions.length}. До скидки нужно 8+. Попробуй ещё раз!`;
-        codeBoxEl.style.display = 'none';
-    } else {
-        iconEl.textContent = '😅';
-        titleEl.textContent = 'Есть куда расти!';
-        textEl.textContent = `Правильных ответов: ${quizScore} из ${quizQuestions.length}. Попробуй ещё раз — будет интереснее!`;
-        codeBoxEl.style.display = 'none';
-    }
-}
-
-function restartQuiz() {
-    startQuiz();
-}
-
-function copyQuizCode() {
-    copyPromo('SWAG15');
-}
-
-// ============================================
 // ОФОРМЛЕНИЕ ЗАКАЗА
 // ============================================
 function openCheckoutModal() {
@@ -725,7 +510,6 @@ function submitCheckout() {
     const promoEl = document.getElementById('customer-promo');
     const commentEl = document.getElementById('customer-comment');
 
-    // Читаем и валидируем
     const name = sanitizeName(nameEl ? nameEl.value : '');
     const phone = formatPhone(phoneEl ? phoneEl.value : '');
     const telegram = sanitizeTelegram(telegramEl ? telegramEl.value : '');
@@ -733,7 +517,6 @@ function submitCheckout() {
     const promo = sanitizeText(promoEl ? promoEl.value : '', 20).toUpperCase();
     const comment = sanitizeComment(commentEl ? commentEl.value : '');
 
-    // Показываем очищенные значения обратно в форме
     if (nameEl) nameEl.value = name;
     if (phoneEl) phoneEl.value = phone;
     if (telegramEl) telegramEl.value = telegram;
@@ -741,7 +524,6 @@ function submitCheckout() {
     if (promoEl) promoEl.value = promo;
     if (commentEl) commentEl.value = comment;
 
-    // Проверка обязательных полей
     if (name.length < 2) {
         showFieldError('customer-name', 'Введите имя (только буквы, минимум 2 символа)');
         return;
@@ -763,13 +545,6 @@ function submitCheckout() {
         return;
     }
 
-    // Если промокод введён, но не из списка — предупреждаем
-    const validPromos = ['SWAG10', 'SWAG15', 'SWAG20', 'SWAG30'];
-    if (promo && !validPromos.includes(promo)) {
-        showToast(`Промокод «${promo}» не найден. Мы проверим его вручную.`, 'info');
-    }
-
-    // Считаем итог
     const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
     const itemsText = cart
         .map(item => `• ${item.name} (разм. ${item.selectedSize}) × ${item.qty} — ${item.price * item.qty} ₽`)
@@ -822,7 +597,6 @@ function switchTab(tabId) {
     history.pushState(null, '', '#' + tabId);
 
     if (tabId === 'cart') renderCart();
-    if (tabId === 'games') renderClicker();
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -834,17 +608,13 @@ document.addEventListener('DOMContentLoaded', function () {
     initMarquee();
 
     loadData();
-    loadClicker();
     renderProducts();
     renderCart();
     updateCartCount();
-    renderClicker();
 
-    // Автоприменение форматирования при вводе телефона и Telegram
     const phoneEl = document.getElementById('customer-phone');
     if (phoneEl) {
         phoneEl.addEventListener('input', function () {
-            const pos = this.selectionStart;
             this.value = formatPhone(this.value);
         });
     }
@@ -885,20 +655,6 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('popstate', () => {
         const tabId = window.location.hash.replace('#', '') || 'home';
         switchTab(tabId);
-    });
-
-    const clickerBtn = document.getElementById('clicker-btn');
-    if (clickerBtn) {
-        clickerBtn.addEventListener('click', clickTheButton);
-    }
-
-    document.querySelectorAll('.reward-item').forEach(el => {
-        el.addEventListener('click', () => {
-            if (el.classList.contains('unlocked') || el.classList.contains('available')) {
-                const code = el.querySelector('.reward-code').textContent;
-                copyPromo(code);
-            }
-        });
     });
 
     const modal = document.getElementById('checkout-modal');
