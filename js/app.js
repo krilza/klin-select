@@ -1,6 +1,6 @@
 // В самом начале js/app.js, до всех функций
 
-const APP_VERSION = 'v1.0'; // <-- МЕНЯЙ ЭТУ ЦИФРУ при больших обновлениях каталога
+const APP_VERSION = 'v1.1'; // <-- МЕНЯЙ ЭТУ ЦИФРУ при больших обновлениях каталога
 
 // Проверяем, совпадает ли версия
 if (localStorage.getItem('swaglink_app_version') !== APP_VERSION) {

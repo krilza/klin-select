@@ -870,16 +870,30 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
 }
 
+/* ============================================ */
+/* ЗНАК РУБЛЯ ₽ — ОБЩИЕ СТИЛИ                   */
+/* ============================================ */
 .product-price .rub-card,
 .product-detail-price .rub-card,
 .cart-item-price .rub-card {
-    font-size: 0.75em;
-    font-weight: 800;
-    margin-left: 3px;
-    display: inline-block;
+    font-size: 0.85em !important;
+    font-weight: 800 !important;
+    margin-left: 4px !important;
+    display: inline-block !important;
+    color: #b388ff !important;
+    -webkit-text-fill-color: #b388ff !important;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
     transform: translateY(-0.02em);
+    opacity: 1 !important;
+    visibility: visible !important;
+    line-height: 1 !important;
 }
 
 .product-btn-view {
@@ -1057,6 +1071,9 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
 }
 
 .product-detail-description {
@@ -1344,6 +1361,9 @@ a.contact-card:hover .contact-arrow {
     font-weight: 800;
     font-size: 18px;
     letter-spacing: -0.3px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
 }
 
 .qty-controls {
@@ -1431,6 +1451,9 @@ a.contact-card:hover .contact-arrow {
     color: #f0eaff;
     font-weight: 900;
     letter-spacing: -1.5px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
 }
 
 .cart-total h3 span:first-child {
@@ -1447,6 +1470,11 @@ a.contact-card:hover .contact-arrow {
     display: inline-block;
     vertical-align: baseline;
     transform: translateY(-0.03em);
+    color: #b388ff;
+    -webkit-text-fill-color: #b388ff;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
 }
 
 .btn-checkout {
