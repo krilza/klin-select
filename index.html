@@ -3,50 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Swaglink — одежда, часы и техника напрямую с заводов Китая. Доставка в день заказа по Иваново.">
-    <meta name="theme-color" content="#7c4dff">
-    <title>Swaglink — Магазин одежды, часов и техники</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+    <meta name="description" content="KLIN SELECT — одежда, часы и техника напрямую с заводов Китая. Доставка в день заказа по Иваново.">
+    <meta name="theme-color" content="#FFFFF0">
+    <title>KLIN SELECT — Curated for your everyday</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23FFFFF0'/><text x='50' y='72' text-anchor='middle' font-size='72' font-family='Helvetica, Arial, sans-serif' font-weight='900' fill='%23000'>K</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <div class="artifact-bottom"></div>
     <div id="toast-container" class="toast-container"></div>
 
+    <!-- Верхняя полоса -->
+    <div class="topbar">
+        <div class="container topbar-inner">
+            <span class="topbar-tagline">Fashion · Tech · Accessories</span>
+            <span class="topbar-right">Иваново · Россия · Выпуск 01</span>
+        </div>
+    </div>
+
+    <!-- Шапка -->
     <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo" data-tab="home" style="cursor: pointer;">
-                    <h1>
-                        <svg class="logo-star-svg" width="26" height="26" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M35 22 C20 22 12 35 12 50 C12 65 20 78 35 78"
-                                  fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
-                            <path d="M65 78 C80 78 88 65 88 50 C88 35 80 22 65 22"
-                                  fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
-                            <path d="M35 22 L65 78"
-                                  fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
-                        </svg>
-                        <span>Swaglink</span>
-                    </h1>
-                </div>
-                <nav class="nav">
-                    <a href="#home" class="nav-link active" data-tab="home">Главная</a>
-                    <a href="#catalog" class="nav-link" data-tab="catalog">Каталог</a>
-                    <a href="#contacts" class="nav-link" data-tab="contacts">Контакты</a>
-                    <a href="#cart" class="nav-link" data-tab="cart" style="display: inline-flex; align-items: center; gap: 6px;">
-                        <svg class="cart-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <circle cx="9" cy="21" r="1"/>
-                            <circle cx="20" cy="21" r="1"/>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                        </svg>
-                        Корзина <span class="cart-count" id="cart-count-header">0</span>
-                    </a>
-                </nav>
+        <div class="container header-inner">
+            <div class="logo" data-tab="home" role="button" tabindex="0" aria-label="На главную">
+                <span class="logo-text">KLIN SELECT</span>
             </div>
+            <nav class="nav" aria-label="Основная навигация">
+                <a href="#home" class="nav-link active" data-tab="home">Главная</a>
+                <a href="#catalog" class="nav-link" data-tab="catalog">Каталог</a>
+                <a href="#contacts" class="nav-link" data-tab="contacts">Контакты</a>
+                <a href="#cart" class="nav-link nav-cart" data-tab="cart">
+                    Корзина
+                    <span class="cart-count" id="cart-count-header">0</span>
+                </a>
+            </nav>
         </div>
     </header>
 
@@ -54,147 +46,166 @@
 
         <!-- ГЛАВНАЯ -->
         <section id="tab-home" class="tab-content active">
-            <div class="hero">
-                <div class="hero-bg-grid"></div>
-                <div class="hero-bg-glow"></div>
-                <div class="container">
-                    <div class="hero-content">
-                        <div class="hero-badge">
-                            <span class="badge-dot"></span>
-                            Доставка по Иваново в день заказа
-                        </div>
-                        <h2>
-                            Стиль, который <br>
-                            <span class="highlight">выбирают</span>
+
+            <div class="hero reveal">
+                <div class="container hero-container">
+                    <div class="hero-top">
+                        <span class="hero-eyebrow">FASHION · TECH · ACCESSORIES</span>
+                        <h1 class="hero-brand">KLIN SELECT</h1>
+                        <div class="hero-divider"></div>
+                        <p class="hero-tagline">CURATED FOR YOUR EVERYDAY.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="intro reveal">
+                <div class="container intro-grid">
+                    <div class="intro-left">
+                        <span class="intro-num">01 — Манифест</span>
+                    </div>
+                    <div class="intro-right">
+                        <h2 class="intro-title">
+                            Вещи, отобранные вручную,<br>
+                            и качество, за которое<br>
+                            не стыдно.
                         </h2>
-                        <p>Оригинал и качественные реплики одежды, часов и техники. Доставка по Иваново в день заказа — при наличии на складе.</p>
-                        <div class="hero-actions">
-                            <a href="#catalog" class="btn-primary" data-tab="catalog">
-                                Смотреть каталог
-                                <span class="btn-arrow">→</span>
-                            </a>
-                            <a href="#contacts" class="btn-ghost" data-tab="contacts">Связаться</a>
-                        </div>
-
-                        <div class="hero-stats">
-                            <div class="hero-stat">
-                                <span class="hero-stat-num">10+</span>
-                                <span class="hero-stat-label">заводов</span>
-                            </div>
-                            <div class="hero-stat-divider"></div>
-                            <div class="hero-stat">
-                                <span class="hero-stat-num">Сегодня</span>
-                                <span class="hero-stat-label">доставка по Иваново</span>
-                            </div>
-                            <div class="hero-stat-divider"></div>
-                            <div class="hero-stat">
-                                <span class="hero-stat-num">100%</span>
-                                <span class="hero-stat-label">оригинал и реплики</span>
-                            </div>
+                        <div class="intro-cols">
+                            <p>Мы работаем напрямую с заводами в Китае. У нас есть доступ к оригинальным вещам и качественным репликам.</p>
+                            <p>Каждая модель проходит личный контроль: отбираем материалы, проверяем партии перед отправкой. Никакого посреднического брака.</p>
                         </div>
                     </div>
                 </div>
-                <div class="hero-marquee">
-                    <div class="marquee-track" id="marquee-track"></div>
-                </div>
             </div>
 
-            <div class="about-brand">
+            <div class="benefits reveal">
                 <div class="container">
-                    <div class="about-brand-content">
-                        <div class="section-tag">О НАС</div>
-                        <div class="about-brand-icon">
-                            <img src="images/factory.svg" alt="Завод" class="factory-icon-img">
-                        </div>
-                        <h2>Мы работаем напрямую с заводами в Китае</h2>
-                        <p>У нас есть доступ к оригинальным вещам и качественным репликам. Каждая модель проходит личный контроль: отбираем лучшие материалы, проверяем партии перед отправкой.</p>
-                        <p>Никакого посреднического брака. Только проверенное качество по доступной цене.</p>
-                        <p style="color: #b388ff; font-weight: 600; margin-top: 20px;">
-                            ⚡ По городу Иваново — доставка в тот же день при наличии товара на складе.
-                        </p>
+                    <div class="benefits-head">
+                        <span class="section-label">02 — Преимущества</span>
+                        <h2 class="section-title">Три причины<br>выбрать KLIN SELECT</h2>
                     </div>
-
-                    <div class="brand-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">10+</span>
-                            <span class="stat-label">Проверенных заводов</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">100%</span>
-                            <span class="stat-label">Контроль качества</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">Сегодня</span>
-                            <span class="stat-label">Доставка по Иваново</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">24/7</span>
-                            <span class="stat-label">Поддержка клиентов</span>
-                        </div>
+                    <div class="benefits-list">
+                        <article class="benefit-row reveal-item">
+                            <div class="benefit-index">01</div>
+                            <h3 class="benefit-title">Доставка в день заказа</h3>
+                            <p class="benefit-text">По Иваново — в тот же день, если товар есть на складе. По России — 2-3 дня.</p>
+                        </article>
+                        <article class="benefit-row reveal-item">
+                            <div class="benefit-index">02</div>
+                            <h3 class="benefit-title">Возврат без вопросов</h3>
+                            <p class="benefit-text">14 дней на возврат. Без лишних формальностей и переписок.</p>
+                        </article>
+                        <article class="benefit-row reveal-item">
+                            <div class="benefit-index">03</div>
+                            <h3 class="benefit-title">Оригинал и реплики</h3>
+                            <p class="benefit-text">Полный доступ к оригинальным вещам и качественным репликам на выбор.</p>
+                        </article>
                     </div>
                 </div>
             </div>
 
-            <div class="features">
+            <div class="metrics reveal">
+                <div class="container metrics-grid">
+                    <div class="metric reveal-item">
+                        <span class="metric-num">10+</span>
+                        <span class="metric-label">Заводов-партнёров</span>
+                    </div>
+                    <div class="metric reveal-item">
+                        <span class="metric-num">24/7</span>
+                        <span class="metric-label">На связи в Telegram</span>
+                    </div>
+                    <div class="metric reveal-item">
+                        <span class="metric-num">Сегодня</span>
+                        <span class="metric-label">Доставка по Иваново</span>
+                    </div>
+                    <div class="metric reveal-item">
+                        <span class="metric-num">14</span>
+                        <span class="metric-label">Дней на возврат</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="faq reveal">
                 <div class="container">
-                    <div class="section-tag" style="text-align: center; display: block; width: fit-content; margin: 0 auto 20px;">ПОЧЕМУ МЫ</div>
-                    <h2 class="section-heading">Преимущества Swaglink</h2>
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon-wrap">
-                                <img src="images/rocket.svg" alt="Ракета" class="feature-icon-img rocket-img">
+                    <div class="faq-head">
+                        <span class="section-label">— ЧАСТЫЕ ВОПРОСЫ</span>
+                        <h2 class="section-title">Честные ответы —<br>для твоей уверенности</h2>
+                    </div>
+
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>Это оригинал или реплика?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>У нас есть и оригинальные вещи, и качественные реплики — вы сами выбираете, что взять. У каждой модели в описании указано, оригинал это или реплика. По качеству реплики не отличаются от оригинала: тот же материал, тот же крой.</p>
                             </div>
-                            <h3>Доставка в день заказа</h3>
-                            <p>По Иваново — в тот же день, если товар есть на складе.</p>
-                            <div class="feature-num">01</div>
                         </div>
-                        <div class="feature-card">
-                            <div class="feature-icon-wrap">
-                                <img src="images/refresh.svg" alt="Возврат" class="feature-icon-img">
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>Как быстро придёт заказ в Иваново?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>По Иваново — доставка в день заказа при наличии товара на складе. Курьер привезёт в удобное вам время. По России — 2-3 дня через СДЭК или Почту России. Отслеживание на каждом этапе.</p>
                             </div>
-                            <h3>Легкий возврат</h3>
-                            <p>14 дней на возврат. Без вопросов и лишних формальностей.</p>
-                            <div class="feature-num">02</div>
                         </div>
-                        <div class="feature-card">
-                            <div class="feature-icon-wrap">
-                                <img src="images/star.svg" alt="Качество" class="feature-icon-img">
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>Как происходит оплата?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Оплата после подтверждения заказа. Принимаем переводы на карту, СБП и наличными курьеру при получении в Иваново. Никаких предоплат за товар, которого нет в наличии.</p>
                             </div>
-                            <h3>Оригинал и реплики</h3>
-                            <p>Доступ к оригиналу и качественным репликам на выбор.</p>
-                            <div class="feature-num">03</div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>Как подобрать размер?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>У каждого товара есть таблица размеров. Если сомневаетесь — напишите нам в Telegram, поможем подобрать. При ошибке в размере — обменяем в течение 14 дней без вопросов.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" aria-expanded="false">
+                                <span>Можно ли вернуть товар?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Да, 14 дней на возврат или обмен. Товар должен быть неношеным, с бирками. Возвращаем полную стоимость или меняем на другой размер в течение 2 дней. Никаких лишних вопросов.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="marquee reveal">
+                <div class="marquee-track" id="marquee-track"></div>
+            </div>
+
         </section>
 
         <!-- КАТАЛОГ -->
         <section id="tab-catalog" class="tab-content">
             <div class="container">
                 <div class="page-header">
-                    <div class="section-tag">КАТАЛОГ</div>
+                    <span class="section-label">Каталог — 2026</span>
                     <h2 class="page-title">Наш каталог</h2>
-                    <p class="page-subtitle">Отобрано вручную. Проверено лично.</p>
+                    <p class="page-subtitle">Отобрано вручную. Проверено лично. Обновляется каждую неделю.</p>
                 </div>
 
-                <div class="category-filter">
-                    <button class="category-btn active" data-category="all">
-                        <span class="category-icon">✦</span>
-                        <span>Все</span>
-                    </button>
-                    <button class="category-btn" data-category="clothes">
-                        <span class="category-icon">👕</span>
-                        <span>Одежда</span>
-                    </button>
-                    <button class="category-btn" data-category="watches">
-                        <span class="category-icon">⌚</span>
-                        <span>Часы</span>
-                    </button>
-                    <button class="category-btn" data-category="tech">
-                        <span class="category-icon">📱</span>
-                        <span>Техника</span>
-                    </button>
+                <div class="category-filter" role="tablist" aria-label="Фильтр по категориям">
+                    <button class="category-btn active" data-category="all" role="tab" aria-selected="true">Все товары</button>
+                    <button class="category-btn" data-category="clothes" role="tab" aria-selected="false">Одежда</button>
+                    <button class="category-btn" data-category="watches" role="tab" aria-selected="false">Часы</button>
+                    <button class="category-btn" data-category="tech" role="tab" aria-selected="false">Техника</button>
                 </div>
 
                 <div class="catalog-grid" id="product-container"></div>
@@ -204,7 +215,7 @@
         <!-- КАРТОЧКА ТОВАРА -->
         <section id="tab-product" class="tab-content">
             <div class="container">
-                <button class="btn-back" onclick="goBackToCatalog()">← Назад в каталог</button>
+                <button class="btn btn-outline btn-back" onclick="goBackToCatalog()" aria-label="Назад в каталог">← Вернуться в каталог</button>
                 <div id="product-detail"></div>
             </div>
         </section>
@@ -213,61 +224,42 @@
         <section id="tab-contacts" class="tab-content">
             <div class="container">
                 <div class="page-header">
-                    <div class="section-tag">КОНТАКТЫ</div>
-                    <h2 class="page-title">Свяжитесь с нами</h2>
-                    <p class="page-subtitle">Отвечаем быстро. Всегда на связи.</p>
+                    <span class="section-label">Контакты — 2026</span>
+                    <h2 class="page-title">Связаться с нами</h2>
+                    <p class="page-subtitle">Отвечаем быстро. Всегда на связи. Среднее время ответа — 15 минут.</p>
                 </div>
 
-                <div class="contacts-content">
-                    <a href="tel:+79303420168" class="contact-card">
-                        <div class="contact-icon-wrap">
-                            <div class="contact-icon">📱</div>
-                        </div>
-                        <div class="contact-info">
-                            <h3>Телефон</h3>
-                            <p>8 (930) 342-01-68</p>
-                        </div>
-                        <div class="contact-arrow">→</div>
+                <div class="contacts-list">
+                    <a href="tel:+79303420168" class="contact-row">
+                        <span class="contact-num">01</span>
+                        <span class="contact-label">Телефон</span>
+                        <span class="contact-value">8 (930) 342-01-68</span>
+                        <span class="contact-arrow">→</span>
                     </a>
-
-                    <a href="https://t.me/SwaglinkShop_bot" target="_blank" rel="noopener" class="contact-card">
-                        <div class="contact-icon-wrap">
-                            <div class="contact-icon">💬</div>
-                        </div>
-                        <div class="contact-info">
-                            <h3>Telegram-бот</h3>
-                            <p>@SwaglinkShop_bot</p>
-                        </div>
-                        <div class="contact-arrow">→</div>
+                    <a href="https://t.me/SwaglinkShop_bot" target="_blank" rel="noopener" class="contact-row">
+                        <span class="contact-num">02</span>
+                        <span class="contact-label">Telegram-бот</span>
+                        <span class="contact-value">@SwaglinkShop_bot</span>
+                        <span class="contact-arrow">→</span>
                     </a>
-
-                    <div class="contact-card">
-                        <div class="contact-icon-wrap">
-                            <div class="contact-icon">👤</div>
-                        </div>
-                        <div class="contact-info">
-                            <h3>Менеджер</h3>
-                            <p>Иван Олегович</p>
-                        </div>
+                    <div class="contact-row contact-static">
+                        <span class="contact-num">03</span>
+                        <span class="contact-label">Менеджер</span>
+                        <span class="contact-value">Иван Олегович</span>
+                        <span class="contact-arrow">·</span>
                     </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon-wrap">
-                            <div class="contact-icon">📍</div>
-                        </div>
-                        <div class="contact-info">
-                            <h3>Город</h3>
-                            <p>Иваново</p>
-                        </div>
+                    <div class="contact-row contact-static">
+                        <span class="contact-num">04</span>
+                        <span class="contact-label">Город</span>
+                        <span class="contact-value">Иваново</span>
+                        <span class="contact-arrow">·</span>
                     </div>
                 </div>
 
                 <div class="contacts-note">
-                    <div class="contacts-note-icon">⚡</div>
-                    <div>
-                        <h4>Доставка в день заказа по Иваново</h4>
-                        <p>При наличии товара на складе. По России — 2-3 дня</p>
-                    </div>
+                    <span class="contacts-note-label">Доставка</span>
+                    <h4>В день заказа по Иваново</h4>
+                    <p>При наличии товара на складе. По России — стандартно 2-3 дня.</p>
                 </div>
             </div>
         </section>
@@ -276,31 +268,28 @@
         <section id="tab-cart" class="tab-content">
             <div class="container">
                 <div class="page-header">
-                    <div class="section-tag">КОРЗИНА</div>
+                    <span class="section-label">Корзина — 2026</span>
                     <h2 class="page-title">Ваш заказ</h2>
-                    <p class="page-subtitle">Проверьте товары перед оформлением</p>
+                    <p class="page-subtitle">Проверьте товары перед оформлением. Мы свяжемся с вами в Telegram.</p>
                 </div>
 
                 <div id="cart-container">
                     <div id="cart-empty" class="cart-empty">
-                        <div class="cart-empty-icon">🛒</div>
+                        <span class="cart-empty-num">— 00</span>
                         <h3>Корзина пуста</h3>
                         <p>Самое время что-нибудь выбрать</p>
-                        <a href="#catalog" class="btn-primary" data-tab="catalog">Перейти в каталог</a>
+                        <a href="#catalog" class="btn btn-solid" data-tab="catalog">Перейти в каталог →</a>
                     </div>
                     <div id="cart-items" style="display: none;">
                         <div id="cart-list"></div>
                         <div class="cart-total">
-                            <div class="cart-total-info">
+                            <div class="cart-total-left">
                                 <span class="cart-total-label">Итого к оплате</span>
                                 <h3>
-                                    <span id="cart-total-price">0</span><span class="rub-big">₽</span>
+                                    <span id="cart-total-price">0</span><span class="rub-big"> ₽</span>
                                 </h3>
                             </div>
-                            <button class="btn-primary btn-checkout" onclick="openCheckoutModal()">
-                                Оформить заказ
-                                <span class="btn-arrow">→</span>
-                            </button>
+                            <button class="btn btn-solid" onclick="openCheckoutModal()">Оформить заказ →</button>
                         </div>
                     </div>
                 </div>
@@ -310,32 +299,31 @@
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <svg class="footer-star-svg" width="20" height="20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M35 22 C20 22 12 35 12 50 C12 65 20 78 35 78"
-                              fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
-                        <path d="M65 78 C80 78 88 65 88 50 C88 35 80 22 65 22"
-                              fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
-                        <path d="M35 22 L65 78"
-                              fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
-                    </svg>
-                    Swaglink
-                </div>
-                <p>© 2026 Swaglink. Все права защищены. Доставка по Иваново в день заказа.</p>
+        <div class="container footer-inner">
+            <div class="footer-col">
+                <span class="footer-brand">KLIN SELECT</span>
+                <p class="footer-tagline">CURATED FOR YOUR EVERYDAY.</p>
+            </div>
+            <div class="footer-col footer-col-center">
+                <span class="footer-label">Разделы</span>
+                <a href="#home" class="footer-link" data-tab="home">Главная</a>
+                <a href="#catalog" class="footer-link" data-tab="catalog">Каталог</a>
+                <a href="#contacts" class="footer-link" data-tab="contacts">Контакты</a>
+            </div>
+            <div class="footer-col footer-col-right">
+                <span class="footer-label">© 2026</span>
+                <p class="footer-note">Все права защищены</p>
             </div>
         </div>
     </footer>
 
-    <!-- МОДАЛЬНОЕ ОКНО ОФОРМЛЕНИЯ ЗАКАЗА -->
-    <div id="checkout-modal" class="modal-overlay">
+    <div id="checkout-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
         <div class="modal-window">
-            <button type="button" class="modal-close" onclick="closeCheckoutModal()">✕</button>
+            <button type="button" class="modal-close" onclick="closeCheckoutModal()" aria-label="Закрыть">✕</button>
 
             <div class="modal-header">
-                <div class="section-tag">ОФОРМЛЕНИЕ</div>
-                <h2 class="modal-title">Данные для доставки</h2>
+                <span class="section-label">Оформление</span>
+                <h2 class="modal-title" id="checkout-title">Данные для доставки</h2>
                 <p class="modal-subtitle">Заполните форму — мы свяжемся с вами в Telegram</p>
             </div>
 
@@ -345,41 +333,39 @@
                     <input type="text" id="customer-name" name="name" required placeholder="Иван Иванов" autocomplete="name">
                 </div>
 
-                <div class="form-group">
-                    <label for="customer-phone">Телефон *</label>
-                    <input type="tel" id="customer-phone" name="phone" required placeholder="+7 (900) 000-00-00" autocomplete="tel">
-                </div>
-
-                <div class="form-group">
-                    <label for="customer-telegram">Telegram *</label>
-                    <input type="text" id="customer-telegram" name="telegram" required placeholder="@username" autocomplete="off">
-                    <small class="form-hint">Для связи по заказу</small>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer-phone">Телефон *</label>
+                        <input type="tel" id="customer-phone" name="phone" required placeholder="+7 (900) 000-00-00" autocomplete="tel">
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-telegram">Telegram *</label>
+                        <input type="text" id="customer-telegram" name="telegram" required placeholder="@username" autocomplete="off">
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="customer-address">Адрес доставки *</label>
-                    <textarea id="customer-address" name="address" required placeholder="Город, улица, дом, квартира, индекс" rows="3"></textarea>
+                    <textarea id="customer-address" name="address" required placeholder="Город, улица, дом, квартира, индекс" rows="2"></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="customer-promo">Промокод (если есть)</label>
-                    <input type="text" id="customer-promo" name="promo" placeholder="SWAG10" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                    <label for="customer-comment">Комментарий (необязательно)</label>
-                    <textarea id="customer-comment" name="comment" placeholder="Например: позвоните перед доставкой" rows="2"></textarea>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer-promo">Промокод</label>
+                        <input type="text" id="customer-promo" name="promo" placeholder="KLIN10" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-comment">Комментарий</label>
+                        <input type="text" id="customer-comment" name="comment" placeholder="Позвоните перед доставкой" autocomplete="off">
+                    </div>
                 </div>
 
                 <div class="checkout-summary">
-                    <span>К оплате:</span>
+                    <span>К оплате</span>
                     <strong><span id="checkout-total">0</span> ₽</strong>
                 </div>
 
-                <button type="submit" class="btn-primary btn-submit">
-                    Отправить заказ в Telegram
-                    <span class="btn-arrow">→</span>
-                </button>
+                <button type="submit" class="btn btn-solid btn-submit">Отправить заказ в Telegram →</button>
             </form>
         </div>
     </div>
