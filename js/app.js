@@ -1,7 +1,7 @@
 // ============================================
 // АВТО-ВЕРСИЯ
 // ============================================
-const APP_VERSION = 'v1.2';
+const APP_VERSION = 'v1.3';
 
 (function checkAppVersion() {
     const savedVersion = localStorage.getItem('klin_app_version');
@@ -799,6 +799,11 @@ function closeCheckoutModal() {
     }
 }
 
+// ============================================
+// ОФОРМЛЕНИЕ ЗАКАЗА — отправка через Cloudflare Worker
+// ============================================
+const WORKER_URL = 'https://klin-select-order.ivan-look07.workers.dev';
+
 function submitCheckout() {
     if (cart.length === 0) {
         showToast('Корзина пуста', 'error');
@@ -826,6 +831,7 @@ function submitCheckout() {
     if (promoEl) promoEl.value = promo;
     if (commentEl) commentEl.value = comment;
 
+    // Валидация
     if (name.length < 2) { showFieldError('customer-name', 'Введите имя (минимум 2 символа)'); return; }
     const phoneDigits = phone.replace(/\D/g, '');
     if (phoneDigits.length !== 11) { showFieldError('customer-phone', 'Введите телефон полностью'); return; }
@@ -833,30 +839,74 @@ function submitCheckout() {
     if (address.length < 5) { showFieldError('customer-address', 'Введите полный адрес доставки'); return; }
 
     const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-    const itemsText = cart
-        .map(item => `• ${item.name} (разм. ${item.selectedSize}) × ${item.qty} — ${item.price * item.qty} ₽`)
-        .join('\n');
 
-    const message =
-`НОВЫЙ ЗАКАЗ В KLIN SELECT
+    // Формируем данные для Worker
+    const orderData = {
+        name: name,
+        phone: phone,
+        telegram: telegram,
+        address: address,
+        promo: promo,
+        comment: comment,
+        items: cart.map(item => ({
+            name: item.name,
+            size: item.selectedSize,
+            qty: item.qty,
+            price: item.price
+        })),
+        total: total
+    };
 
-Товары:
-${itemsText}
+    // Блокируем кнопку отправки на время запроса
+    const submitBtn = document.querySelector('#checkout-form button[type="submit"]');
+    const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Отправка...';
+    }
 
-Итого: ${total.toLocaleString('ru-RU')} ₽
-${promo ? `Промокод: ${promo}` : ''}
+    // Отправляем в Cloudflare Worker
+    fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.ok) {
+            // Успех
+            showToast('✅ Заказ отправлен! Мы свяжемся с вами.');
+            closeCheckoutModal();
 
-Покупатель:
-• Имя: ${name}
-• Телефон: ${phone}
-• Telegram: ${telegram}
-• Адрес: ${address}${comment ? `\n• Комментарий: ${comment}` : ''}`;
+            // Очищаем корзину
+            cart = [];
+            saveCart();
+            renderCart();
+            updateCartCount();
 
-    window.open(`https://t.me/SwaglinkShop_bot?text=${encodeURIComponent(message)}`, '_blank');
-    closeCheckoutModal();
-    showToast('Заказ отправлен. Мы свяжемся с вами.');
+            // Очищаем поля формы
+            if (nameEl) nameEl.value = '';
+            if (phoneEl) phoneEl.value = '';
+            if (telegramEl) telegramEl.value = '';
+            if (addressEl) addressEl.value = '';
+            if (promoEl) promoEl.value = '';
+            if (commentEl) commentEl.value = '';
+        } else {
+            showToast('Ошибка: ' + (data.error || 'попробуйте позже'), 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка отправки заказа:', error);
+        showToast('Ошибка сети. Проверьте соединение и попробуйте снова.', 'error');
+    })
+    .finally(() => {
+        // Разблокируем кнопку
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
+    });
 }
-
 // ============================================
 // НАВИГАЦИЯ
 // ============================================
