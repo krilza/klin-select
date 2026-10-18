@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
-  <title>Rocket</title>
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M74 23c12-7 25-8 32-7 1 8 0 21-7 33-7 12-19 24-34 32L49 68C57 49 63 34 74 23Z" stroke="#F4F0FF" stroke-width="5.5"/>
-    <circle cx="83" cy="37" r="7.5" stroke="#A78BFA" stroke-width="5"/>
-    <path d="m51 67-15 2-12 15 23-2M62 78l-2 15-15 12 2-23" stroke="#F4F0FF" stroke-width="5.5"/>
-    <path d="M37 92 26 103M49 98l-8 8M30 81l-8 8" stroke="#A78BFA" stroke-width="5.5"/>
-  </g>
-</svg>

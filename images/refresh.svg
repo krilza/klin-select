@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
-  <title>Refresh</title>
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
-    <path d="M30 48a37 37 0 0 1 64-13l7 8" stroke="#F4F0FF"/>
-    <path d="M101 28v15H86" stroke="#A78BFA"/>
-    <path d="M98 80a37 37 0 0 1-64 13l-7-8" stroke="#F4F0FF"/>
-    <path d="M27 100V85h15" stroke="#A78BFA"/>
-  </g>
-</svg>

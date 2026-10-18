@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#F4F4E5"/>
+<g><path d="M330 150 L350 290 M470 150 L450 290 M330 850 L350 710 M470 850 L450 710" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="260" y="290" width="280" height="420" rx="70" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="400" cy="500" r="110" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M400 500 L400 430 M400 500 L460 530" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><path d="M540 480 L565 480 L565 520 L540 520" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></g>
+<text x="400" y="900" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" letter-spacing="8" fill="#000">WATCH · DARK</text>
+<text x="400" y="945" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="20" letter-spacing="5" fill="#555">ФОТО СКОРО</text>
+</svg>

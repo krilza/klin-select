@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+<rect width="800" height="1000" fill="#F4F4E5"/>
+<g><path d="M230 400 Q170 400 140 560 Q120 700 190 720 Q250 735 290 660 L330 600 L470 600 L510 660 Q550 735 610 720 Q680 700 660 560 Q630 400 570 400Z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M260 490 L260 560 M225 525 L295 525" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="540" cy="500" r="12" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="500" cy="535" r="12" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="580" cy="535" r="12" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="540" cy="570" r="12" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></g>
+<text x="400" y="900" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" letter-spacing="8" fill="#000">GAMEPAD</text>
+<text x="400" y="945" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="20" letter-spacing="5" fill="#555">ФОТО СКОРО</text>
+</svg>
