@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
-<rect width="800" height="1000" fill="#F4F4E5"/>
-<g><path d="M250 260 L360 260 L360 560 Q360 600 420 640 Q470 680 450 730 Q420 770 340 750 Q250 730 250 640Z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M440 300 L550 300 L550 580 Q550 620 600 660 Q650 700 625 750 Q595 790 520 770 Q440 750 440 660Z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M250 310 L360 310 M440 350 L550 350" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></g>
-<text x="400" y="900" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" letter-spacing="8" fill="#000">SOCKS</text>
-<text x="400" y="945" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="20" letter-spacing="5" fill="#555">ФОТО СКОРО</text>
-</svg>

@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://swagivan.github.io/klin-select/sitemap.xml

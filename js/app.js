@@ -1,7 +1,7 @@
 // ============================================
 // АВТО-ВЕРСИЯ
 // ============================================
-const APP_VERSION = 'v2.0';
+const APP_VERSION = 'v1.3';
 
 (function checkAppVersion() {
     const savedVersion = localStorage.getItem('klin_app_version');
@@ -10,7 +10,6 @@ const APP_VERSION = 'v2.0';
         localStorage.removeItem('klin_products_v2');
         localStorage.removeItem('klin_products_v3');
         localStorage.removeItem('klin_products');
-        localStorage.removeItem('klin_products_v4');
         localStorage.removeItem('swaglink_products_v4');
         localStorage.removeItem('swaglink_products_v3');
         localStorage.removeItem('swaglink_products_v2');
@@ -29,8 +28,6 @@ let cart = [];
 let selectedSize = null;
 let currentProductId = null;
 let currentCategory = 'all';
-let searchQuery = '';
-let sortMode = 'default';
 
 // ============================================
 // ХЕЛПЕР
@@ -105,7 +102,6 @@ function showFieldError(id, message) {
     const el = document.getElementById(id);
     if (!el) return;
     el.style.outline = '2px solid #000';
-    if (el.focus) el.focus();
     showToast(message, 'error');
     setTimeout(() => { el.style.outline = ''; }, 2500);
 }
@@ -208,7 +204,7 @@ function initScrollReveal() {
 // ЗАГРУЗКА / СОХРАНЕНИЕ
 // ============================================
 function loadData() {
-    const savedProducts = localStorage.getItem('klin_products_v5');
+    const savedProducts = localStorage.getItem('klin_products_v4');
     const savedCart = localStorage.getItem('klin_cart');
 
     if (savedProducts) {
@@ -216,105 +212,98 @@ function loadData() {
     }
 
     if (!products.length) {
-        // Тестовые позиции без брендов. Фото — заглушки (images/p-*.svg),
-        // замените на свои фотографии, когда они будут готовы.
         products = [
             {
                 id: 1,
-                name: "Худи базовое оверсайз",
-                description: "Плотное худи свободного кроя с капюшоном и карманом-кенгуру.",
-                composition: "Хлопок 80%, полиэстер 20%",
+                name: "Худи undercover x grace 2009",
+                description: "Эксклюзивное худи. Оверсайз крой, качественный хлопок.",
                 price: 4990,
-                images: ["images/p-hoodie-1.svg", "images/p-hoodie-2.svg"],
-                sizes: ["S", "M", "L", "XL"],
-                category: "clothes",
-                badge: "Новинка",
-                sizeChart: {
-                    note: "Ориентировочные размеры изделия в сантиметрах",
-                    head: ["Размер", "Ширина груди", "Длина", "Рукав"],
-                    rows: [
-                        ["S", "58", "68", "62"],
-                        ["M", "61", "70", "63"],
-                        ["L", "64", "72", "64"],
-                        ["XL", "67", "74", "65"]
-                    ]
-                }
+                images: [
+                    "images/hoodie-1.jpg",
+                    "images/hoodie-1-2.jpg",
+                    "images/hoodie-1-3.jpg"
+                ],
+                sizes: ["L", "M", "XL"],
+                category: "clothes"
             },
             {
                 id: 2,
-                name: "Лонгслив базовый чёрный",
-                description: "Лонгслив из мягкого хлопка, свободная посадка.",
-                composition: "Хлопок 100%",
-                price: 2490,
-                images: ["images/p-longsleeve-1.svg"],
-                sizes: ["S", "M", "L", "XL"],
-                category: "clothes",
-                sizeChart: {
-                    note: "Ориентировочные размеры изделия в сантиметрах",
-                    head: ["Размер", "Ширина груди", "Длина", "Рукав"],
-                    rows: [
-                        ["S", "54", "68", "62"],
-                        ["M", "57", "70", "63"],
-                        ["L", "60", "72", "64"],
-                        ["XL", "63", "74", "65"]
-                    ]
-                }
+                name: "Лонгслив Gr Project x Nine Inch Nails",
+                description: "Коллаборация с легендарной группой.",
+                price: 3990,
+                images: [
+                    "images/longsleeve-nin.jpg",
+                    "images/longsleeve-nin-2.jpg"
+                ],
+                sizes: ["L", "M", "XL"],
+                category: "clothes"
             },
             {
                 id: 3,
-                name: "Футболка хлопковая",
-                description: "Базовая футболка прямого кроя, плотный хлопок.",
-                composition: "Хлопок 100%",
-                price: 1490,
-                images: ["images/p-tee-1.svg"],
-                sizes: ["S", "M", "L", "XL"],
+                name: "Худи undercover 1994",
+                description: "Классическая модель, проверенная временем.",
+                price: 5990,
+                images: [
+                    "images/hoodie-1994.png",
+                    "images/hoodie-1994-2.png"
+                ],
+                sizes: ["L", "M", "XL"],
+                category: "clothes"
+            },
+            {
+                id: 8,
+                name: "Набор носков Adidas",
+                description: "Классическая модель, проверенная временем. 3 пары, размер 37-41.",
+                price: 400,
+                images: [
+                    "images/socks-1.png"
+                ],
+                sizes: ["37-41"],
                 category: "clothes"
             },
             {
                 id: 4,
-                name: "Носки хлопковые, 3 пары",
-                description: "Набор из трёх пар повседневных носков. Не подлежат возврату по закону.",
-                composition: "Хлопок 75%, полиамид 22%, эластан 3%",
-                price: 400,
-                images: ["images/p-socks-1.svg"],
-                sizes: ["37-41", "42-45"],
-                category: "clothes"
+                name: "Часы WCS2 Серебро",
+                description: "Кварцевый механизм. Гравировки на застёжке. Застёжка-клипса.",
+                price: 1500,
+                images: [
+                    "images/watch-1.jpg",
+                    "images/watch-1-2.jpg"
+                ],
+                sizes: ["ONE SIZE"],
+                category: "watches"
             },
             {
                 id: 5,
-                name: "Часы кварцевые, сталь",
-                description: "Кварцевый механизм, стальной браслет, застёжка-клипса.",
-                composition: "Корпус и браслет — нержавеющая сталь",
+                name: "Часы WCS2 Серебро с чёрным циферблатом",
+                description: "Кварцевый механизм. Гравировки на застёжке. Застёжка-клипса.",
                 price: 1500,
-                images: ["images/p-watch-1.svg"],
+                images: [
+                    "images/watch-2.jpg",
+                    "images/watch-2-2.jpg"
+                ],
                 sizes: ["ONE SIZE"],
                 category: "watches"
             },
             {
                 id: 6,
-                name: "Часы кварцевые с чёрным циферблатом",
-                description: "Кварцевый механизм, стальной браслет, застёжка-клипса.",
-                composition: "Корпус и браслет — нержавеющая сталь",
-                price: 1500,
-                images: ["images/p-watch-2.svg"],
-                sizes: ["ONE SIZE"],
-                category: "watches"
-            },
-            {
-                id: 7,
-                name: "Беспроводные наушники TWS",
-                description: "Bluetooth 5.3, кейс с зарядкой, до 6 часов работы без кейса.",
-                price: 2500,
-                images: ["images/p-earbuds-1.svg"],
+                name: "AirPods Pro 2",
+                description: "Активное шумоподавление, до 6 часов работы.",
+                price: 5000,
+                images: [
+                    "images/tech-1.jpg"
+                ],
                 sizes: ["ONE SIZE"],
                 category: "tech"
             },
             {
-                id: 8,
-                name: "Беспроводной геймпад",
-                description: "Подключение по Bluetooth к ПК, смартфону и приставкам с поддержкой стандартных контроллеров.",
+                id: 7,
+                name: "Беспроводной геймпад DualShock для PS4",
+                description: "Контроллер для комфортного управления в играх. Беспроводное подключение Bluetooth.",
                 price: 1999,
-                images: ["images/p-gamepad-1.svg"],
+                images: [
+                    "images/tech-2.jpg"
+                ],
                 sizes: ["ONE SIZE"],
                 category: "tech"
             }
@@ -330,7 +319,7 @@ function loadData() {
 }
 
 function saveProducts() {
-    localStorage.setItem('klin_products_v5', JSON.stringify(products));
+    localStorage.setItem('klin_products_v4', JSON.stringify(products));
 }
 
 function saveCart() {
@@ -345,38 +334,27 @@ function renderProducts() {
     if (!container) return;
 
     const visible = products.filter(p => !p.hidden);
-    let filtered = currentCategory === 'all'
+    const filtered = currentCategory === 'all'
         ? visible
         : visible.filter(p => p.category === currentCategory);
-
-    const q = searchQuery.trim().toLowerCase();
-    if (q) {
-        filtered = filtered.filter(p =>
-            (p.name + ' ' + (p.description || '')).toLowerCase().includes(q)
-        );
-    }
-
-    if (sortMode === 'price-asc') filtered = [...filtered].sort((a, b) => a.price - b.price);
-    else if (sortMode === 'price-desc') filtered = [...filtered].sort((a, b) => b.price - a.price);
-    else if (sortMode === 'name') filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name, 'ru'));
 
     if (!filtered.length) {
         container.innerHTML = `
             <div class="catalog-empty">
-                <p>${q ? 'По вашему запросу ничего не найдено' : 'В этой категории пока нет товаров'}</p>
+                <p>В этой категории пока нет товаров</p>
             </div>
         `;
         return;
     }
 
-    container.innerHTML = filtered.map((product) => {
+    container.innerHTML = filtered.map((product, index) => {
         const catName = CATEGORY_NAMES[product.category] || '';
         const firstImage = (product.images && product.images[0]) || product.image || PLACEHOLDER;
 
         return `
-            <div class="product-card" onclick="openProduct(${product.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProduct(${product.id});}" role="button" tabindex="0" aria-label="${escapeHtml(product.name)}, ${Number(product.price).toLocaleString('ru-RU')} ₽">
+            <div class="product-card" onclick="openProduct(${product.id})">
                 <div class="product-image-wrapper">
-                    ${product.badge ? `<div class="product-badge">${escapeHtml(product.badge)}</div>` : ''}
+                    ${index === 0 && currentCategory === 'all' ? '<div class="product-badge">Новинка</div>' : ''}
                     ${catName ? `<div class="product-category-tag">${escapeHtml(catName)}</div>` : ''}
                     <img src="${escapeHtml(firstImage)}"
                          alt="${escapeHtml(product.name)}"
@@ -466,31 +444,18 @@ function openProduct(productId) {
     </div>
 `;
 
-    const sizeChartHtml = product.sizeChart ? `
-        <details class="size-chart">
-            <summary>Таблица размеров</summary>
-            <p class="size-chart-note">${escapeHtml(product.sizeChart.note || '')}</p>
-            <table>
-                <thead><tr>${product.sizeChart.head.map(h => `<th>${escapeHtml(h)}</th>`).join('')}</tr></thead>
-                <tbody>${product.sizeChart.rows.map(r => `<tr>${r.map(c => `<td>${escapeHtml(c)}</td>`).join('')}</tr>`).join('')}</tbody>
-            </table>
-        </details>
-    ` : '';
-
     container.innerHTML = `
         <div class="product-detail-container">
             ${galleryHtml}
             <div class="product-detail-info">
-                <div class="product-detail-tag">${escapeHtml(catName)}</div>
+                <div class="product-detail-tag">${escapeHtml(catName)} · ЛИМИТЕД</div>
                 <h1 class="product-detail-name">${escapeHtml(product.name)}</h1>
                 <div class="product-detail-price">${Number(product.price).toLocaleString('ru-RU')}<span class="rub-card">₽</span></div>
                 <div class="product-detail-description">${escapeHtml(product.description)}</div>
-                ${product.composition ? `<div class="product-detail-meta"><span>Состав</span> ${escapeHtml(product.composition)}</div>` : ''}
 
                 <div class="product-detail-sizes">
-                    <h4>${product.sizes.length > 1 ? 'Выберите размер' : 'Размер'} <span id="size-error" style="display: none;">— обязательно</span></h4>
+                    <h4>Выберите размер <span id="size-error" style="display: none;">— обязательно</span></h4>
                     <div class="size-options">${sizesHtml}</div>
-                    ${sizeChartHtml}
                 </div>
 
                 <button class="btn btn-solid btn-add-cart" onclick="addToCartFromDetail()">
@@ -501,7 +466,7 @@ function openProduct(productId) {
                 <div class="product-detail-perks">
                     <div class="perk-item">Доставка в день заказа по Иваново</div>
                     <div class="perk-item">Возврат 14 дней</div>
-                    <div class="perk-item">Проверка перед отправкой</div>
+                    <div class="perk-item">Оригинал и реплики</div>
                 </div>
             </div>
         </div>
@@ -509,9 +474,6 @@ function openProduct(productId) {
 
     initGallery();
     switchTab('product');
-
-    // Если размер единственный (ONE SIZE), выбираем его сразу
-    if (product.sizes.length === 1) selectSize(product.sizes[0]);
 }
 
 function selectSize(size) {
@@ -555,7 +517,6 @@ function addToCartFromDetail() {
 // ============================================
 let galleryIndex = 0;
 let galleryTotal = 0;
-let galleryKeyBound = false;
 
 function initGallery() {
     const track = document.getElementById('gallery-track');
@@ -582,10 +543,7 @@ function initGallery() {
         }
     }, { passive: true });
 
-    if (!galleryKeyBound) {
-        document.addEventListener('keydown', handleGalleryKey);
-        galleryKeyBound = true;
-    }
+    document.addEventListener('keydown', handleGalleryKey);
     updateGalleryPosition();
 }
 
@@ -846,37 +804,6 @@ function closeCheckoutModal() {
 // ============================================
 const WORKER_URL = 'https://klin-select-order.ivan-look07.workers.dev';
 
-function sanitizeEmail(str) {
-    const s = String(str || '').trim().slice(0, 80);
-    return /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/.test(s) ? s : '';
-}
-
-function generateOrderId() {
-    const d = new Date();
-    const pad = n => String(n).padStart(2, '0');
-    const date = String(d.getFullYear()).slice(2) + pad(d.getMonth() + 1) + pad(d.getDate());
-    const rand = Math.floor(Math.random() * 9000 + 1000);
-    return `KS-${date}-${rand}`;
-}
-
-function openSuccessModal(orderId) {
-    const modal = document.getElementById('success-modal');
-    const num = document.getElementById('success-number');
-    if (num) num.textContent = orderId;
-    if (modal) {
-        modal.classList.add('active');
-        document.body.classList.add('modal-open');
-    }
-}
-
-function closeSuccessModal() {
-    const modal = document.getElementById('success-modal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.classList.remove('modal-open');
-    }
-}
-
 function submitCheckout() {
     if (cart.length === 0) {
         showToast('Корзина пуста', 'error');
@@ -889,9 +816,6 @@ function submitCheckout() {
     const addressEl = document.getElementById('customer-address');
     const promoEl = document.getElementById('customer-promo');
     const commentEl = document.getElementById('customer-comment');
-    const emailEl = document.getElementById('customer-email');
-    const contactEl = document.getElementById('customer-contact');
-    const consentEl = document.getElementById('customer-consent');
 
     const name = sanitizeName(nameEl ? nameEl.value : '');
     const phone = formatPhone(phoneEl ? phoneEl.value : '');
@@ -899,10 +823,7 @@ function submitCheckout() {
     const address = sanitizeAddress(addressEl ? addressEl.value : '');
     const promo = sanitizeText(promoEl ? promoEl.value : '', 20).toUpperCase();
     const comment = sanitizeComment(commentEl ? commentEl.value : '');
-    const email = sanitizeEmail(emailEl ? emailEl.value : '');
-    const contact = contactEl ? contactEl.value : 'telegram';
 
-    if (emailEl) emailEl.value = email;
     if (nameEl) nameEl.value = name;
     if (phoneEl) phoneEl.value = phone;
     if (telegramEl) telegramEl.value = telegram;
@@ -914,32 +835,19 @@ function submitCheckout() {
     if (name.length < 2) { showFieldError('customer-name', 'Введите имя (минимум 2 символа)'); return; }
     const phoneDigits = phone.replace(/\D/g, '');
     if (phoneDigits.length !== 11) { showFieldError('customer-phone', 'Введите телефон полностью'); return; }
-    if (telegram && telegram.length < 4) { showFieldError('customer-telegram', 'Введите Telegram в формате @username'); return; }
-    if (contact === 'telegram' && !telegram) { showFieldError('customer-telegram', 'Укажите Telegram или выберите другой способ связи'); return; }
-    if (emailEl && emailEl.value && !email) { showFieldError('customer-email', 'Проверьте адрес электронной почты'); return; }
-    if (!consentEl || !consentEl.checked) { showFieldError('customer-consent', 'Подтвердите согласие на обработку персональных данных'); return; }
+    if (telegram.length < 4) { showFieldError('customer-telegram', 'Введите Telegram в формате @username'); return; }
     if (address.length < 5) { showFieldError('customer-address', 'Введите полный адрес доставки'); return; }
 
     const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
-    const orderId = generateOrderId();
-    const contactLabels = { telegram: 'Telegram', phone: 'Звонок', whatsapp: 'WhatsApp' };
-
     // Формируем данные для Worker
     const orderData = {
-        orderId: orderId,
         name: name,
         phone: phone,
-        telegram: telegram || '—',
-        email: email,
-        contact: contact,
-        consent: true,
+        telegram: telegram,
         address: address,
         promo: promo,
-        // Способ связи и email дублируем в комментарий, чтобы менеджер увидел их,
-        // даже если Worker пока не выводит новые поля.
-        comment: [`Связь: ${contactLabels[contact] || contact}`, email ? `Email: ${email}` : '', comment]
-            .filter(Boolean).join(' | '),
+        comment: comment,
         items: cart.map(item => ({
             name: item.name,
             size: item.selectedSize,
@@ -967,8 +875,8 @@ function submitCheckout() {
     .then(data => {
         if (data.ok) {
             // Успех
+            showToast('✅ Заказ отправлен! Мы свяжемся с вами.');
             closeCheckoutModal();
-            openSuccessModal(orderId);
 
             // Очищаем корзину
             cart = [];
@@ -983,8 +891,6 @@ function submitCheckout() {
             if (addressEl) addressEl.value = '';
             if (promoEl) promoEl.value = '';
             if (commentEl) commentEl.value = '';
-            if (emailEl) emailEl.value = '';
-            if (consentEl) consentEl.checked = false;
         } else {
             showToast('Ошибка: ' + (data.error || 'попробуйте позже'), 'error');
         }
@@ -1007,8 +913,6 @@ function submitCheckout() {
 function goBackToCatalog() { switchTab('catalog'); }
 
 function switchTab(tabId) {
-    if (tabId === 'product' && !currentProductId) tabId = 'catalog';
-
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
     });
@@ -1069,52 +973,9 @@ document.addEventListener('DOMContentLoaded', function () {
         el.addEventListener('click', function (e) {
             e.preventDefault();
             const tabId = this.dataset.tab;
-            if (tabId) {
-                closeCheckoutModal();
-                switchTab(tabId);
-            }
+            if (tabId) switchTab(tabId);
         });
     });
-
-    const searchEl = document.getElementById('catalog-search');
-    if (searchEl) {
-        searchEl.addEventListener('input', function () {
-            searchQuery = this.value;
-            renderProducts();
-        });
-    }
-
-    const sortEl = document.getElementById('catalog-sort');
-    if (sortEl) {
-        sortEl.addEventListener('change', function () {
-            sortMode = this.value;
-            renderProducts();
-        });
-    }
-
-    const successModal = document.getElementById('success-modal');
-    if (successModal) {
-        successModal.addEventListener('click', (e) => {
-            if (e.target === successModal) closeSuccessModal();
-        });
-    }
-
-    const copyBtn = document.getElementById('success-copy');
-    if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-            const num = document.getElementById('success-number');
-            if (!num) return;
-            const text = num.textContent;
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(
-                    () => showToast('Номер скопирован', 'info'),
-                    () => showToast('Не удалось скопировать', 'error')
-                );
-            } else {
-                showToast('Скопируйте номер вручную', 'info');
-            }
-        });
-    }
 
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.addEventListener('click', function () {
@@ -1142,7 +1003,6 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeCheckoutModal();
-        closeSuccessModal();
         closeLightbox();
     }
 });

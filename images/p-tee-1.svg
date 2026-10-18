@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
-<rect width="800" height="1000" fill="#F4F4E5"/>
-<g><path d="M310 290 L190 360 L240 470 L290 440 L290 770 L510 770 L510 440 L560 470 L610 360 L490 290 Q400 350 310 290Z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M310 290 Q400 360 490 290" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></g>
-<text x="400" y="900" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" letter-spacing="8" fill="#000">T-SHIRT</text>
-<text x="400" y="945" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="20" letter-spacing="5" fill="#555">ФОТО СКОРО</text>
-</svg>

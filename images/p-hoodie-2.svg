@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
-<rect width="800" height="1000" fill="#F4F4E5"/>
-<g><path d="M300 300 L220 360 L150 560 L210 580 L260 470 L260 760 L540 760 L540 470 L590 580 L650 560 L580 360 L500 300 Q400 380 300 300Z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M300 300 Q400 420 500 300" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><path d="M340 400 L340 480 M460 400 L460 480" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
-<path d="M320 600 L480 600 L500 700 L300 700Z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></g>
-<text x="400" y="900" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" letter-spacing="8" fill="#000">HOODIE</text>
-<text x="400" y="945" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="20" letter-spacing="5" fill="#555">ФОТО СКОРО · 2</text>
-</svg>
