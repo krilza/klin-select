@@ -639,7 +639,8 @@ button { font-family: inherit; }
 .catalog-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    border-bottom: var(--line);
+    /* Нижнюю линию дают сами карточки; отступ — чтобы не слипаться с линией футера */
+    margin-bottom: 80px;
 }
 
 .product-card {
@@ -1982,7 +1983,7 @@ body.modal-open { overflow: hidden; }
     .category-btn:nth-child(2n) { border-right: none; }
     .category-btn:nth-child(-n + 2) { border-bottom: var(--line); }
 
-    .catalog-grid { grid-template-columns: 1fr; }
+    .catalog-grid { grid-template-columns: 1fr; margin-bottom: 50px; }
     .product-card { border-right: none; padding: 28px 0 32px; }
     /* В одну колонку выравнивать высоту карточек не нужно */
     .product-name, .product-description { min-height: 0; }
