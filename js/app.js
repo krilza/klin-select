@@ -288,35 +288,59 @@ function renderProducts() {
 
     container.innerHTML = filtered.map((product, index) => {
         const catName = CATEGORY_NAMES[product.category] || '';
-        const firstImage = getImages(product)[0];
+        const [firstImage, secondImage] = getImages(product);
         const soldOut = isSoldOut(product);
 
         let badge = '';
         if (soldOut) badge = '<div class="product-badge product-badge-outline">Нет в наличии</div>';
         else if (index === 0 && currentCategory === 'all') badge = '<div class="product-badge">Новинка</div>';
 
+        const classes = ['product-card'];
+        if (secondImage) classes.push('has-second');
+        if (soldOut) classes.push('is-sold-out');
+
         return `
-            <a href="#product/${product.id}" class="product-card${soldOut ? ' is-sold-out' : ''}" data-id="${product.id}">
+            <a href="#product/${product.id}" class="${classes.join(' ')}" data-id="${product.id}">
                 <div class="product-image-wrapper">
                     ${badge}
-                    ${catName ? `<div class="product-category-tag">${escapeHtml(catName)}</div>` : ''}
                     <img src="${escapeHtml(firstImage)}"
                          alt="${escapeHtml(product.name)}"
-                         class="product-image"
+                         class="product-image product-image-first"
                          loading="lazy"
                          onerror="this.src='${PLACEHOLDER}'">
+                    ${secondImage ? `<img src="${escapeHtml(secondImage)}"
+                         alt=""
+                         class="product-image product-image-second"
+                         loading="lazy"
+                         onerror="this.remove()">` : ''}
                 </div>
                 <div class="product-info">
-                    <div class="product-name">${escapeHtml(product.name)}</div>
-                    <div class="product-description">${escapeHtml(product.description)}</div>
-                    <div class="product-footer">
-                        <div class="product-price">${formatPrice(product.price)}<span class="rub-card">₽</span></div>
-                        <div class="product-btn-view">Смотреть ${ICONS.arrowRight}</div>
+                    ${catName ? `<span class="product-category">${escapeHtml(catName)}</span>` : ''}
+                    <div class="product-row">
+                        <span class="product-name">${escapeHtml(product.name)}</span>
+                        <span class="product-price">${formatPrice(product.price)}<span class="rub-card">₽</span></span>
                     </div>
                 </div>
             </a>
         `;
     }).join('');
+}
+
+function renderCategoryCounts() {
+    const visible = products.filter(p => !p.hidden);
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        const category = btn.dataset.category;
+        const count = category === 'all'
+            ? visible.length
+            : visible.filter(p => p.category === category).length;
+        let badge = btn.querySelector('.category-count');
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'category-count';
+            btn.appendChild(badge);
+        }
+        badge.textContent = count;
+    });
 }
 
 // ============================================
@@ -968,6 +992,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initMarquee();
 
     loadCart();
+    renderCategoryCounts();
     renderProducts();
     renderCart();
     updateCartCount();
