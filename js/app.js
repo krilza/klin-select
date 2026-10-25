@@ -371,7 +371,7 @@ function openProduct(productId, { push = true } = {}) {
     if (!container) return;
 
     const catName = CATEGORY_NAMES[product.category] || 'ТОВАР';
-    const authName = AUTHENTICITY_NAMES[product.authenticity] || 'ЛИМИТЕД';
+    const authName = AUTHENTICITY_NAMES[product.authenticity];
     const images = getImages(product);
     const sizes = getSizes(product);
     const soldOut = isSoldOut(product);
@@ -428,7 +428,7 @@ function openProduct(productId, { push = true } = {}) {
         <div class="product-detail-container">
             ${galleryHtml}
             <div class="product-detail-info">
-                <div class="product-detail-tag">${escapeHtml(catName)} · ${escapeHtml(authName)}</div>
+                <div class="product-detail-tag">${escapeHtml(catName)}${authName ? ' · ' + escapeHtml(authName) : ''}</div>
                 <h1 class="product-detail-name">${escapeHtml(product.name)}</h1>
                 <div class="product-detail-price">${formatPrice(product.price)}<span class="rub-card">₽</span></div>
                 <div class="product-detail-description">${escapeHtml(product.description)}</div>

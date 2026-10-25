@@ -106,7 +106,8 @@ button { font-family: inherit; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 22px 0;
+    padding-top: 22px;
+    padding-bottom: 22px;
     gap: 24px;
     flex-wrap: wrap;
 }
@@ -436,6 +437,7 @@ button { font-family: inherit; }
     min-width: 0;
 }
 
+.metric:first-child { padding-left: 0; }
 .metric:last-child { border-right: none; }
 
 .metric-num {
@@ -583,7 +585,8 @@ button { font-family: inherit; }
     font-size: 15px;
     line-height: 1.7;
     color: var(--muted);
-    max-width: 480px;
+    max-width: 560px;
+    text-wrap: pretty;
 }
 
 /* ============================================ */
@@ -1052,9 +1055,8 @@ button { font-family: inherit; }
 
 .product-detail-perks {
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    padding-top: 6px;
+    flex-direction: column;
+    gap: 10px;
     border-top: var(--line-soft);
     padding-top: 18px;
     margin-top: 4px;
@@ -1073,8 +1075,8 @@ button { font-family: inherit; }
 /* ============================================ */
 /* CONTACTS                                     */
 /* ============================================ */
+/* Верхнюю линию даёт .page-header */
 .contacts-list {
-    border-top: var(--line);
     border-bottom: var(--line);
 }
 
@@ -1178,7 +1180,6 @@ a.contact-row:hover .contact-arrow { transform: translateX(4px); }
 /* ============================================ */
 #cart-container {
     padding: 40px 0 80px;
-    border-top: var(--line);
 }
 
 .cart-empty {
@@ -1336,10 +1337,9 @@ a.cart-item-name:hover { border-bottom-color: var(--black); }
 
 .btn-remove:hover { background: var(--ivory-hover); }
 
+/* Верхнюю линию даёт последний .cart-item */
 .cart-total {
-    margin-top: 40px;
     padding: 40px 0;
-    border-top: var(--line);
     border-bottom: var(--line);
     display: flex;
     justify-content: space-between;
@@ -1920,6 +1920,7 @@ body.modal-open { overflow: hidden; }
 
     .metrics-grid { grid-template-columns: repeat(2, 1fr); }
     .metric:nth-child(2n) { border-right: none; }
+    .metric:nth-child(2n + 1) { padding-left: 0; }
     .metric:nth-child(1), .metric:nth-child(2) { border-bottom: var(--line); }
 
     .catalog-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1938,9 +1939,11 @@ body.modal-open { overflow: hidden; }
     .topbar-inner { font-size: 10px; letter-spacing: 1.5px; }
     .topbar-right { display: none; }
 
-    .header-inner { flex-direction: column; align-items: stretch; gap: 14px; }
-    .nav { justify-content: center; }
-    .nav-link { padding: 8px 12px; font-size: 10px; letter-spacing: 1px; }
+    .header-inner { flex-direction: column; align-items: stretch; gap: 14px; padding-top: 16px; padding-bottom: 14px; }
+    .logo { align-self: center; }
+    .nav { justify-content: space-between; flex-wrap: nowrap; gap: 0; }
+    .nav-link { padding: 8px 10px; font-size: 10px; letter-spacing: 1px; gap: 6px; }
+    .cart-count { min-width: 18px; height: 18px; padding: 0 5px; font-size: 10px; }
 
     .hero { padding: 40px 0 32px; }
     .hero-brand { font-size: clamp(28px, 9vw, 44px); letter-spacing: 3px; }
@@ -1969,18 +1972,20 @@ body.modal-open { overflow: hidden; }
     .page-header { padding: 50px 0 32px; }
     .page-title { font-size: clamp(28px, 8vw, 42px); }
 
-    .category-filter { flex-direction: column; }
+    .category-filter { display: grid; grid-template-columns: 1fr 1fr; }
     .category-btn {
-        border-right: none;
-        border-bottom: var(--line);
+        min-width: 0;
         font-size: 12px;
         text-align: center;
         padding: 18px 12px;
     }
-    .category-btn:last-child { border-bottom: none; }
+    .category-btn:nth-child(2n) { border-right: none; }
+    .category-btn:nth-child(-n + 2) { border-bottom: var(--line); }
 
     .catalog-grid { grid-template-columns: 1fr; }
-    .product-card { border-right: none; }
+    .product-card { border-right: none; padding: 28px 0 32px; }
+    /* В одну колонку выравнивать высоту карточек не нужно */
+    .product-name, .product-description { min-height: 0; }
     .product-card:nth-child(2n) { border-right: none; }
 
     .product-detail-container { grid-template-columns: 1fr; }
@@ -1994,7 +1999,7 @@ body.modal-open { overflow: hidden; }
     }
     .contact-row:hover { padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0; }
     .contact-num { grid-column: 2; grid-row: 1; text-align: right; }
-    .contact-label { grid-column: 1 / -1; }
+    .contact-label { grid-column: 1; grid-row: 1; }
     .contact-value { grid-column: 1; font-size: 18px; }
     .contact-arrow { grid-column: 2; }
 
@@ -2020,6 +2025,11 @@ body.modal-open { overflow: hidden; }
     .faq-answer { padding: 0 20px; }
     .faq-item.open .faq-answer { padding: 0 20px 20px; }
     .faq-answer p { font-size: 14px; padding-top: 14px; }
+}
+
+/* Узкие телефоны — меню должно влезть в одну строку */
+@media (max-width: 380px) {
+    .nav-link { padding: 8px 6px; letter-spacing: 0.5px; }
 }
 
 *:focus-visible {
