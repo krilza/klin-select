@@ -726,14 +726,17 @@ button { font-family: inherit; }
     color: var(--muted);
 }
 
+/* Цена — отдельной строкой под названием, главный акцент карточки */
 .product-row {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
 }
 
+/* Место под две строки — чтобы цены в ряду стояли на одной линии */
 .product-name {
+    min-height: 2.6em;
     font-size: 14px;
     font-weight: 700;
     line-height: 1.3;
@@ -748,19 +751,19 @@ button { font-family: inherit; }
 }
 
 .product-price {
-    font-size: 15px;
-    font-weight: 800;
-    letter-spacing: -0.01em;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
     color: var(--black);
     white-space: nowrap;
-    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
 }
 
 .product-price .rub-card {
-    font-size: 0.75em;
-    font-weight: 500;
-    opacity: 0.75;
-    margin-left: 2px;
+    font-size: 0.7em;
+    font-weight: 700;
+    margin-left: 3px;
 }
 
 .catalog-empty {
@@ -1931,8 +1934,9 @@ body.modal-open { overflow: hidden; }
 
     .catalog-grid { grid-template-columns: 1fr 1fr; gap: 32px 12px; margin-bottom: 50px; }
     .product-card { gap: 12px; }
-    .product-row { flex-direction: column; gap: 6px; }
+    .product-row { gap: 6px; }
     .product-name { font-size: 12px; }
+    .product-price { font-size: 19px; }
     .product-badge { top: 8px; left: 8px; padding: 5px 9px; font-size: 9px; }
 
     .product-detail-container { grid-template-columns: 1fr; }
